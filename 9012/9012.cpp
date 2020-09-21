@@ -10,17 +10,17 @@ int main()
 	stack <int> s;
 	cin >> n;
 	string str;
-	for(int i = 0; i < n; i++)
+	for (int i = 0; i < n; i++)
 	{
 		bool r = true;
 		cin >> str;
 		int b = str.length();
-		for(int j = 0; j < b; j++)
+		for (int j = 0; j < b; j++)
 		{
-			if(str.at(j) == '(')
+			if (str.at(j) == '(')
 				s.push(1);
-			else if (str.at(j) == ')' )
-				if(s.empty() == 0)
+			else if (str.at(j) == ')')
+				if (s.empty() == 0)
 					s.pop();
 				else
 				{
@@ -28,13 +28,13 @@ int main()
 					break;
 				}
 		}
-		if(s.empty() == 0)
+		if (s.empty() == 0)
 			r = false;
-		
-		while(s.empty() == 0)
+
+		while (s.empty() == 0)
 			s.pop();
-		
-		if(r == true)
+
+		if (r == true)
 			cout << "YES" << "\n";
 		else
 			cout << "NO" << "\n";

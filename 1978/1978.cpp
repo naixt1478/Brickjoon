@@ -2,20 +2,20 @@
 
 int main()
 {
-	int n,i,a,c = 0;
+	int n, i, a, c = 0;
 	std::cin >> n;
-	for(i = 0; i < n; i++)
+	for (i = 0; i < n; i++)
 	{
 		std::cin >> a;
-		if(a == 1)
+		if (a == 1)
 		{
 			c++;
 		}
 		else
 		{
-		for(int b = 2; b<a; b++)
+			for (int b = 2; b < a; b++)
 			{
-				if(a % b == 0)
+				if (a % b == 0)
 				{
 					c++;
 					break;
@@ -23,7 +23,7 @@ int main()
 			}
 		}
 	}
-	std::cout << n-c;
+	std::cout << n - c;
 }
 
 // solved

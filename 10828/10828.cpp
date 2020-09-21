@@ -30,16 +30,16 @@ int main()
 		{
 			cout << s.size() << "\n";
 		}
-		else if(c == "empty")
+		else if (c == "empty")
 		{
 			cout << s.empty() << "\n";
 		}
-		else if(c == "pop")
+		else if (c == "pop")
 		{
 			if (s.empty() == 0)
 			{
 				cout << s.top() << "\n";
-					s.pop();
+				s.pop();
 			}
 			else
 				cout << "-1" << "\n";

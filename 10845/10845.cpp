@@ -15,38 +15,38 @@ void print2()
 
 int main()
 {
-	int n,a;
+	int n, a;
 	ios::sync_with_stdio(false);
 	string str;
 	queue<int> q;
 	cin >> n;
-	while(n--)
+	while (n--)
 	{
 		cin >> str;
-		if(str == "push")
+		if (str == "push")
 		{
 			cin >> a;
 			q.push(a);
 		}
-		if(str == "front")
+		if (str == "front")
 		{
-			if(q.empty() == 0)
+			if (q.empty() == 0)
 				print1(q.front());
 			else
 				print2();
 		}
-		if(str == "back")
+		if (str == "back")
 		{
-			if(q.empty() == 0)
+			if (q.empty() == 0)
 				print1(q.back());
 			else
 				print2();
 		}
-		if(str == "size")
+		if (str == "size")
 			print1(q.size());
-		if(str == "pop")
+		if (str == "pop")
 		{
-			if(q.empty() == 0)
+			if (q.empty() == 0)
 			{
 				print1(q.front());
 				q.pop();

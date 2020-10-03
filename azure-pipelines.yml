@@ -1,5 +1,4 @@
 - task: VSBuild@1
   inputs:
-    solution: 'Brickjoon.sln'
-    platform: 'x86'
-    configuration: 'debug'
+    solution: '**\*.sln'
+    clean: true

@@ -1,0 +1,5 @@
+- task: VSBuild@1
+  inputs:
+    solution: '**\*.sln'
+    platform: 'x86'
+    configuration: 'debug'

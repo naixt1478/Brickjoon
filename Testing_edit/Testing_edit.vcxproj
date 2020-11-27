@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{a9c7aae3-bfe7-413b-9ddf-b708a6cda524}</ProjectGuid>
-    <RootNamespace>My1152</RootNamespace>
+    <ProjectGuid>{7974d618-2e91-445c-9155-a60c56f3340f}</ProjectGuid>
+    <RootNamespace>Testingedit</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -139,7 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="1152.cpp" />
+    <ClCompile Include="Unknown_brickjoon.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

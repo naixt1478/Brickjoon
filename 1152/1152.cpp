@@ -1,6 +1,1 @@
-#include <iostream>
-
-int main()
-{
-	
-}
+// Not solved

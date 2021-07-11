@@ -18,7 +18,7 @@ int main()
 			c = str.find(48 + i, a);
 			if (c < 0)
 				break;
-			else if (c >= 0)
+			else
 				d[i] += 1, a = c + 1;
 		}
 	}

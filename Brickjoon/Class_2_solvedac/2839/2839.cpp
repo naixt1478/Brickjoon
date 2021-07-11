@@ -32,7 +32,7 @@ int main()
             i--;
             c -= 5;
         }
-        else if (((N - c) % 3) == 0)
+        else
         {
             i += (N - c) / 3;
             break;

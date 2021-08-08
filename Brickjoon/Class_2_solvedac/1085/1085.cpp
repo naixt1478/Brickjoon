@@ -1,39 +1,14 @@
 #include <iostream>
+#include <stdio.h>
 
 using namespace std;
 
 int main()
 {
-	int x,y,w,h;
+	int x, y, w, h, a, b;
 	cin >> x >> y >> w >> h;
-	if ((w-x) > (h-y))
-	{
-		if (w+x == w+1)
-			cout << 1;
-		else if (h+y == h+1)
-			cout << 1;
-		else
-			cout << (h-y);
-	}
-	else if ((w-x) < (h-y))
-	{
-		if (w+x == w+1)
-			cout << 1;
-		else if (h+y == h+1)
-			cout << 1;
-		else
-			cout << (w-x);
-	}
-		
-	else if ((w-x) == (h-y))
-	{
-		if (w+x == w+1)
-			cout << 1;
-		else if (h+y == h+1)
-			cout << 1;
-		else
-			cout << (w-x);
-	}
+	w -= x, h -= y;
+	a = x > w ? w : x;
+	b = y > h ? h : y;
+	cout << (a > b ? b : a);
 }
-
-// solved 

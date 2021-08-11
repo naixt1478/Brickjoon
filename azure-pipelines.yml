@@ -16,3 +16,4 @@ steps:
     cmakeListsOrSettingsJson: 'CMakeListsTxtBasic'
     useVcpkgToolchainFile: true
     cmakeGenerator: 'Ninja'
+    buildWithCMakeArgs: '-v -d stats'

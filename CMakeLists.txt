@@ -1,69 +1,11 @@
-﻿cmake_minimum_required (VERSION 3.8)
+﻿cmake_minimum_required (VERSION 3.20)
 
-project ("Brickjoon")
+project (Brickjoon)
 set(CMAKE_SOURCE_DIR /Brickjoon)
 set(CMAKE_BUILD_DIR /build)
-
+set(CMAKE_BUILD_TYPE DEBUG_CONFIGURATIONS)
 set(CURRENT_SOURCE_DIR "Brickjoon")
-# Something BOJ Brickjoon
-file(GLOB BRICKJOON_LIST CONFIGURE_DEPENDS ${CURRENT_SOURCE_DIR}/*.cpp)
-foreach(SOURCE_PATH ${BRICKJOON_LIST})
 
-get_filename_component(EXECUTABLE_NAME ${SOURCE_PATH} NAME_WE)
+include_directories("include/")
 
-add_executable (baekjoon_${EXECUTABLE_NAME} ${SOURCE_PATH})
-
-MESSAGE(STATUS "${SOURCE_PATH}")
-endforeach(SOURCE_PATH ${BRICKJOON_LIST})
-
-# solved.ac Tier
-#Bronze
-set(CURRENT_SOURCE_DIR "Brickjoon/Bronze*")
-file(GLOB BRICKJOON_LIST CONFIGURE_DEPENDS ${CURRENT_SOURCE_DIR}/*.cpp)
-foreach(SOURCE_PATH ${BRICKJOON_LIST})
-
-get_filename_component(EXECUTABLE_NAME ${SOURCE_PATH} NAME_WE)
-
-add_executable (baekjoon_${EXECUTABLE_NAME} ${SOURCE_PATH})
-
-MESSAGE(STATUS "${SOURCE_PATH}")
-endforeach(SOURCE_PATH ${BRICKJOON_LIST})
-
-#Silver
-set(CURRENT_SOURCE_DIR "Brickjoon/Silver*")
-file(GLOB BRICKJOON_LIST CONFIGURE_DEPENDS ${CURRENT_SOURCE_DIR}/*.cpp)
-foreach(SOURCE_PATH ${BRICKJOON_LIST})
-
-get_filename_component(EXECUTABLE_NAME ${SOURCE_PATH} NAME_WE)
-
-add_executable (baekjoon_${EXECUTABLE_NAME} ${SOURCE_PATH})
-
-MESSAGE(STATUS "${SOURCE_PATH}")
-endforeach(SOURCE_PATH ${BRICKJOON_LIST})
-
-# Solved.ac Class 1
-set(CURRENT_SOURCE_DIR "Brickjoon/Class_1_solvedac")
-
-file(GLOB BRICKJOON_LIST CONFIGURE_DEPENDS ${CURRENT_SOURCE_DIR}/*.cpp)
-foreach(SOURCE_PATH ${BRICKJOON_LIST})
-
-get_filename_component(EXECUTABLE_NAME ${SOURCE_PATH} NAME_WE)
-
-add_executable (Class-1_${EXECUTABLE_NAME} ${SOURCE_PATH})
-
-MESSAGE(STATUS "${SOURCE_PATH}")
-endforeach(SOURCE_PATH ${BRICKJOON_LIST})
-
-# Solved.ac Class 2
-
-set(CURRENT_SOURCE_DIR "Brickjoon/Class_2_solvedac")
-
-file(GLOB BRICKJOON_LIST CONFIGURE_DEPENDS ${CURRENT_SOURCE_DIR}/*.cpp)
-foreach(SOURCE_PATH ${BRICKJOON_LIST})
-
-get_filename_component(EXECUTABLE_NAME ${SOURCE_PATH} NAME_WE)
-
-add_executable (Class-2_${EXECUTABLE_NAME} ${SOURCE_PATH})
-
-MESSAGE(STATUS "${SOURCE_PATH}")
-endforeach(SOURCE_PATH ${BRICKJOON_LIST})
+add_subdirectory(Brickjoon)

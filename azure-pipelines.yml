@@ -13,4 +13,4 @@ pool:
 steps:
 - task: CMake@1
   inputs:
-    cmakeArgs: '-G ninja'
+    cmakeArgs: '-G Ninja'

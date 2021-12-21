@@ -11,7 +11,10 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
-- task: CMake@1
+
+- task: run-cmake@0
   inputs:
-    workingDirectory: 
-    cmakeArgs: '-G Ninja -B ./build'
+    cmakeListsOrSettingsJson: 'CMakeListsTxtBasic'
+    cmakeListsTxtPath: 'CMakeLists.txt'
+    cmakeGenerator: 'Ninja'
+    buildDirectory: './Build'

@@ -11,6 +11,10 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
-- task: CMake@1
+- task: Bash@3
   inputs:
-    cmakeArgs: '-G Ninja -B build -S Brickjoon'
+    targetType: 'inline'
+    script: |
+      # Write your commands here
+      
+      ls -all

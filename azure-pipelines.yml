@@ -12,8 +12,15 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
-  - task: run-cmake@0
-    inputs:
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: |
+      # Write your commands here
+      ls -all
+
+- task: run-cmake@0
+  inputs:
       cmakeListsOrSettingsJson: 'CMakeListsTxtBasic'
       cmakeListsTxtPath: './CMakeLists.txt'
       cmakeGenerator: 'Ninja'

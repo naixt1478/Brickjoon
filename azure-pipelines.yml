@@ -17,4 +17,4 @@ steps:
       cmakeListsOrSettingsJson: 'CMakeListsTxtBasic'
       cmakeListsTxtPath: './CMakeLists.txt'
       cmakeGenerator: 'Ninja'
-      buildDirectory: 
+      buildDirectory: '/build'

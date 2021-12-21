@@ -11,10 +11,7 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
-- task: Bash@3
+- task: CMake@1
   inputs:
-    targetType: 'inline'
-    script: |
-      # Write your commands here
-      
-      ls -all
+    workingDirectory: 
+    cmakeArgs: '-G Ninja -B ./build'

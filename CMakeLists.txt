@@ -20,7 +20,8 @@ elseif(${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
 	message(STATUS "GNU detected include skip")
 
 endif()
-# include GNU compiler bits header
+# detected phase &&
+# include GNU compiler /bits header
 
 add_subdirectory(./Brickjoon_Src)
 # source directory add

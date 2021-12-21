@@ -13,4 +13,4 @@ pool:
 steps:
 - task: CMake@1
   inputs:
-    cmakeArgs: '-G Ninja'
+    cmakeArgs: '-G Ninja -B build -S Brickjoon'

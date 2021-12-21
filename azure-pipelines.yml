@@ -7,14 +7,10 @@
 trigger: 
   - master
 
-
 pool:
   vmImage: ubuntu-latest
 
 steps:
-  - task: run-cmake@0
-    inputs:
-      cmakeListsOrSettingsJson: 'CMakeListsTxtBasic'
-      cmakeListsTxtPath: './CMakeLists.txt'
-      cmakeGenerator: 'Ninja'
-      buildDirectory: './build'
+- task: CMake@1
+  inputs:
+    cmakeArgs: '-G ninja'

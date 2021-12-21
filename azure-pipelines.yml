@@ -5,16 +5,8 @@
 # https://aka.ms/yaml
 #
 
-trigger:
-- master
-
-pool:
-  vmImage: ubuntu-latest
-
-steps:
-- task: run-cmake@0
-  inputs:
-    cmakeListsOrSettingsJson: 'CMakeListsTxtBasic'
-    useVcpkgToolchainFile: true
-    cmakeGenerator: 'Ninja'
-    buildWithCMakeArgs: '-v'
+jobs:
+- job: A2
+  pool: default
+  steps:
+	script: echo "Stage A Job B1"

@@ -13,7 +13,7 @@ set(CURRENT_SOURCE_DIR "Brickjoon")
 include_directories("include/")
 # include GNU compiler bits header
 
-add_subdirectory(./Brickjoon)
+add_subdirectory(./Brickjoon_Src)
 # source directory add
 
 MESSAGE(STATUS "done : root/")

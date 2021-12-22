@@ -2,6 +2,9 @@
 # Created by https://www.toptal.com/developers/gitignore/api/cmake,visualstudio,executable,visualstudiocode
 # Edit at https://www.toptal.com/developers/gitignore?templates=cmake,visualstudio,executable,visualstudiocode
 
+# include GNU 
+include/*
+
 ### CMake ###
 CMakeLists.txt.user
 CMakeCache.txt

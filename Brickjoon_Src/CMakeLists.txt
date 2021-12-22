@@ -12,7 +12,7 @@ foreach(SOURCE_PATH ${BRICKJOON_LIST})
 	get_filename_component(FULL_DIR_NAME ${SOURCE_PATH} PATH)
 	get_filename_component(LAST_DIR_NAME ${FULL_DIR_NAME} NAME)
 	# last dir + number(name) 
-	add_executable (${LAST_DIR_NAME}_${EXECUTABLE_NAME} ${SOURCE_PATH})
+	add_executable (${LAST_DIR_NAME}-${EXECUTABLE_NAME} ${SOURCE_PATH})
 	# log
 	MESSAGE(STATUS "add : "${LAST_DIR_NAME}_${EXECUTABLE_NAME})
 	# done

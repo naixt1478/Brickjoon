@@ -5,4 +5,4 @@
 Algorithm study for
 baekjoon
 (soon codeforce)
-for C / CPP scri
+for C / CPP script

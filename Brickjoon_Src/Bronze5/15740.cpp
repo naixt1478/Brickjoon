@@ -1,7 +1,8 @@
 #include <bits/stdc++.h>
-
 using namespace std;
 
+int main() {}
+/*
 void Nout(string log_data,string option = "")
 {
 	cout << "\ncout : " << log_data << option;
@@ -75,3 +76,5 @@ int main()
 		cout << "time : " << (double((clock() - time1) / CLOCKS_PER_SEC));
 		return 0;
 }
+*/
+// RIP

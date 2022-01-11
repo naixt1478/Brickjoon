@@ -1,80 +1,84 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int main() {}
-/*
-void Nout(string log_data,string option = "")
+int ctoi(char c)
 {
-	cout << "\ncout : " << log_data << option;
+	return c - '0';
 }
 
-void Nout_vec(vector<int>& vec1,string option = "")
+void ch_sign1(deque<int>& deq, string& str)
 {
-	for (int i = 0; i < vec1.size(); i++)
+	if (str[0] == '-')
 	{
-		cout << vec1.at(i) << option;
-	}
-}
-
-string num_iflogic1(string num_data)
-{
-	if (num_data.at(0) == '-')
-		return "-";
-	else
-		return "+";
-}
-
-void convert_str_to_int1(vector<int>& vec1,string str1)
-{
-	if (num_iflogic1(str1) == "-")
-	{
-		for (int i = 0; i < str1.length() - 1; i++)
-			vec1.push_back(-(int(str1.at(i + 1)) - '0'));
-		Nout("\n- detectd : ");
+		for (int i = 1; i < str.size(); i++)
+		{
+			deq.push_back(-ctoi(str[i]));
+		}
 	}
 	else
 	{
-		for (int i = 0; i < str1.length(); i++)
-			vec1.push_back(str1.at(i) - '0');
-		Nout("\n+ detected : ");
+		for (int i = 0; i < str.size(); i++)
+		{
+			deq.push_back(ctoi(str[i]));
+		}
 	}
 }
+
+void solve(deque<int>& d1, deque<int>& d2)
+{
+	int a(0);
+	for (int i = 1; i <= d2.size(); i++)
+	{
+		d1.at(d1.size() - i) += d2.at(d2.size() - i);
+	}
+
+	while(true)
+	{
+		if (d1[0+a] == 0)
+		{
+			d1.pop_front();
+		}
+		else if (a == d1.size() - 1)
+		{
+			break;
+		}
+		else if (1 + a == d1.size() - 1)
+		{
+			break;
+		}
+		else if (d1[0 + a] > 0 && d1[1 + a] < 0)
+		{
+			d1[0 + a]--;
+			d1[1 + a] += 10;
+		}
+		else 
+		{
+			a++;
+		}
+	}
+
+	for (int i = 0; i < d1.size(); i++)
+	{
+		cout << d1.at(i) << ' ';
+	}
+}
+
 
 int main()
 {
-		clock_t time1 = clock();
-		// option 
-		cin.tie(nullptr);
-		ios_base::sync_with_stdio(false);
-		// code 
-		string str, str2;
-		cin >> str >> str2;
-		vector <int> main_num1, main_num2;
-
-		main_num1.reserve(str.length());
-		main_num2.reserve(str2.length());
-
-		convert_str_to_int1(main_num1, str);
-		Nout_vec(main_num1, " ");
-		convert_str_to_int1(main_num2, str2);
-		Nout_vec(main_num2, " ");
-
-		if (main_num1.max_size() <= main_num2.max_size())
-		{
-			main_num2.reserve(10002);
-			for (int i = 0; i < main_num1.size(); i++)
-			{
-				main_num2.at(main_num2.size() - i) += main_num1.at(main_num1.size() - i);
-				cout << main_num2.at(main_num2.size() - i) << '\n';
-			}
-		}
-		else
-		{
-
-		}
-		// now combined
-		cout << "time : " << (double((clock() - time1) / CLOCKS_PER_SEC));
-		return 0;
+	cin.tie(nullptr);
+	ios_base::sync_with_stdio(false);
+	deque<int> d1, d2;
+	string s1,s2;
+	cin >> s1 >> s2;
+	ch_sign1(d1, s1);
+	ch_sign1(d2, s2);
+	if (d1.size() >= d2.size())
+	{
+		solve(d1, d2);
+	}
+	else
+	{
+		solve(d2, d1);
+	}
 }
-*/
-// RIP

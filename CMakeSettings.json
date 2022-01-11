@@ -9,8 +9,7 @@
       "installRoot": "${projectDir}\\out\\install\\${name}",
       "cmakeCommandArgs": "",
       "buildCommandArgs": "",
-      "ctestCommandArgs": "",
-      "intelliSenseMode": "linux-gcc-x64"
+      "ctestCommandArgs": ""
     },
     {
       "name": "Mingw64-Debug",

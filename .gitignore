@@ -5,6 +5,9 @@
 # include GNU 
 include/*
 
+# soon codeforce
+codeforce/*
+
 ### CMake ###
 CMakeLists.txt.user
 CMakeCache.txt

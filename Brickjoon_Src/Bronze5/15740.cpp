@@ -26,7 +26,7 @@ void ch_sign1(deque<int>& deq, string& str)
 
 void solve(deque<int>& d1, deque<int>& d2)
 {
-	int a(0);
+	int a(-1);
 	for (int i = 1; i <= d2.size(); i++)
 	{
 		d1.at(d1.size() - i) += d2.at(d2.size() - i);
@@ -34,15 +34,40 @@ void solve(deque<int>& d1, deque<int>& d2)
 
 	while(true)
 	{
-		if (d1[0+a] == 0)
+		if (d1.size() != 1 && d1[0] == 0)
 		{
 			d1.pop_front();
 		}
-		else if (a == d1.size() - 1)
+		else
 		{
-			break;
+			a++;
 		}
-		else if (1 + a == d1.size() - 1)
+
+		if (d1[d1.size() - 1 - a] / -10 >= 1)
+		{
+			if (d1.size() - 1 - a == 0)
+			{
+				d1.push_front(-(d1[d1.size() - 1 - a] / -10));
+			}
+			else
+			{
+				d1[d1.size() - 2 - a] -= d1[d1.size() - 1 - a] / -10;
+			}
+			d1[d1.size() - 1 - a] %= -10;
+		}
+		else if (d1[d1.size() - 1 - a] / 10 >= 1)
+		{
+			if (d1.size()-1-a == 0)
+			{
+				d1.push_front(d1[d1.size()-1-a] / 10);
+			}
+			else
+			{
+				d1[d1.size() - 2 - a] += d1[d1.size() - 1 - a] / 10;
+			}
+			d1[d1.size()-1-a] %= 10;
+		}
+		else if (a == d1.size() - 1)
 		{
 			break;
 		}
@@ -51,16 +76,26 @@ void solve(deque<int>& d1, deque<int>& d2)
 			d1[0 + a]--;
 			d1[1 + a] += 10;
 		}
-		else 
+		else if (d1[0 + a] < 0 && d1[1 + a] >= 0)
 		{
-			a++;
+			for (int i = 1 + a; i < d1.size(); i++)
+			{
+				if (d1[i] != 0)
+				{
+					d1[0 + a]++;
+					d1[1 + a] += -10;
+					break;
+				}
+			}
 		}
 	}
 
 	for (int i = 0; i < d1.size(); i++)
 	{
-		cout << d1.at(i) << ' ';
+		if (i == 0) cout << d1.at(i);
+		else cout << abs(d1.at(i));
 	}
+	
 }
 
 
@@ -82,3 +117,12 @@ int main()
 		solve(d2, d1);
 	}
 }
+
+/* ¹Ý·Ê
+* 9876543210 -1234567890 
+* ¾ÆÇ² : 8642024680
+* Á¤´ä : 8641975320
+* ³»ÀÏ ÇÈ½º
+*/ 
+
+// solve in progress

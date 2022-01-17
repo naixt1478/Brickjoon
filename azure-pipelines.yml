@@ -7,9 +7,6 @@
 trigger:
   - master
 
-codecov:
-  token: $(CODECOV_TOKEN)
-
 pool:
   vmImage: ubuntu-latest
 

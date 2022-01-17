@@ -8,7 +8,17 @@ set(CMAKE_SOURCE_DIR /Brickjoon)
 set(CMAKE_BUILD_DIR /build)
 set(CMAKE_BUILD_TYPE DEBUG_CONFIGURATIONS)
 set(CURRENT_SOURCE_DIR "Brickjoon")
+option(ENABLE_COVERAGE "Enable coverage" OFF)
+
+if(ENABLE_COVERAGE)
+    add_compile_options(--coverage)
+    add_link_options(--coverage)
+endif()
+
+message(STATUS "coverage status : "${ENABLE_COVERAGE})
+
 message(STATUS "detected compiler : "${CMAKE_CXX_COMPILER_ID})
+
 # set env phase
 if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
 	message(STATUS "MSVC detected include activate")

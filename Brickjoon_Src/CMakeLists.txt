@@ -14,7 +14,7 @@ foreach(SOURCE_PATH ${BRICKJOON_LIST})
 	# last dir + number(name) 
 	add_executable (${LAST_DIR_NAME}-${EXECUTABLE_NAME} ${SOURCE_PATH})
 	# log
-	MESSAGE(STATUS "add : "${LAST_DIR_NAME}_${EXECUTABLE_NAME})
+	MESSAGE(STATUS "add : " ${LAST_DIR_NAME}_${EXECUTABLE_NAME})
 	# done
 	endforeach(SOURCE_PATH ${BRICKJOON_LIST})
 # return finish

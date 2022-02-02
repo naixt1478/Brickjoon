@@ -9,6 +9,9 @@ trigger:
 
 pool:
   vmImage: ubuntu-latest
+  variables:
+    CC: gcc-10
+    CXX: g++-10
 
 steps:
   - task: run-cmake@0

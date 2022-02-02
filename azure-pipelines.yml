@@ -10,15 +10,11 @@ trigger:
 pool:
   vmImage: ubuntu-latest
   variables:
-    CC: gcc-11.2
-    CXX: g++-11.2
+    CC: gcc-10.3.0
+    CXX: g++-10.3.0
     CXXFLAGS: -lstdc++fs
 
 steps:
-  - task: CMake@1
-    inputs:
-      workingDirectory: '.'
-      cmakeArgs: 
   - task: run-cmake@0
     inputs:
       cmakeListsOrSettingsJson: 'CMakeListsTxtBasic'

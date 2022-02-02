@@ -10,8 +10,8 @@ trigger:
 pool:
   vmImage: ubuntu-latest
   variables:
-    CC: gcc-10.3
-    CXX: g++-10.3
+    CC: gcc-11.2
+    CXX: g++-11.2
     CXXFLAGS: -lstdc++fs
 
 steps:

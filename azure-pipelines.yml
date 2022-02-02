@@ -8,10 +8,10 @@ trigger:
   - master
 
 pool:
-  vmImage: ubuntu-latest
+  vmImage: ubuntu-20.04
   variables:
-    CC: gcc-10.3.0
-    CXX: g++-10.3.0
+    CC: gcc-10.3
+    CXX: g++-10.3
     CXXFLAGS: -lstdc++fs
 
 steps:

@@ -15,6 +15,9 @@ pool:
     CXXFLAGS: -lstdc++fs
 
 steps:
+  - task: CMake@1
+    inputs:
+      cmakeArgs: 
   - task: run-cmake@0
     inputs:
       cmakeListsOrSettingsJson: 'CMakeListsTxtBasic'

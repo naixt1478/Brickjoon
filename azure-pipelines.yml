@@ -8,12 +8,15 @@ trigger:
   - master
 
 pool:
-  vmImage: ubuntu-22.04
+  vmImage: ubuntu-20.04
 
 steps:
-  - task: run-cmake@0
+  - task: Bash@3
     inputs:
-      cmakeListsOrSettingsJson: 'CMakeListsTxtBasic'
-      cmakeListsTxtPath: './CMakeLists.txt'
-      cmakeGenerator: 'Ninja'
-      buildDirectory: './build'
+      targetType: 'inline'
+      script: |
+        # Write your commands here
+        
+        echo 'Hello world'
+        ls -all
+        gcc -v

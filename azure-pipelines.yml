@@ -8,11 +8,7 @@ trigger:
   - master
 
 pool:
-  vmImage: ubuntu-20.04
-  variables:
-    CC: gcc-10.3
-    CXX: g++-10.3
-    CXXFLAGS: -lstdc++fs
+  vmImage: ubuntu-22.04
 
 steps:
   - task: run-cmake@0

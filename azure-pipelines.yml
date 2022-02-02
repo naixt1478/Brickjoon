@@ -20,3 +20,10 @@ steps:
         echo 'Hello world'
         ls -all
         gcc -v
+
+  - task: run-cmake@0
+    inputs:
+      cmakeListsOrSettingsJson: 'CMakeListsTxtBasic'
+      cmakeListsTxtPath: './CMakeLists.txt'
+      cmakeGenerator: 'Ninja'
+      buildDirectory: './build'

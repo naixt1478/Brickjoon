@@ -8,7 +8,7 @@ trigger:
   - master
 
 pool:
-  vmImage: ubuntu-20.04
+  vmImage: ubuntu-latest
 
 steps:
   - task: Bash@3
@@ -20,6 +20,7 @@ steps:
         echo 'Hello world'
         ls -all
         gcc -v
+        sudo apt-get install -y gcc-11
 
   - task: run-cmake@0
     inputs:

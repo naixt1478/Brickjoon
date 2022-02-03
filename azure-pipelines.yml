@@ -9,6 +9,10 @@ trigger:
 
 pool:
   vmImage: ubuntu-latest
+  variables:
+    CC: gcc-11
+    CXX: g++-11
+    CXXFLAGS: -lstdc++fs
 
 steps:
   - task: Bash@3
@@ -19,8 +23,8 @@ steps:
         
         echo 'Hello world'
         ls -all
-        gcc -v
         sudo apt-get install -y gcc-11
+        gcc -v
 
   - task: run-cmake@0
     inputs:

@@ -21,7 +21,7 @@ steps:
       script: |
         # Write your commands here
         
-        sudo apt-get uninstall gcc
+        sudo apt-get remove gcc
         sudo apt-get install -y gcc
         which gcc
         ls -all

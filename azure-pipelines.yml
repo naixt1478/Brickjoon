@@ -21,11 +21,12 @@ steps:
       script: |
         # Write your commands here
         
-        sudo apt install build-essential manpages-dev software-properties-common
+        sudo apt-get remove -f gcc g++
+        sudo apt-get install build-essential manpages-dev software-properties-common
         sudo add-apt-repository ppa:ubuntu-toolchain-r/test
-        sudo apt update 
+        sudo apt-get update 
         echo 'install -> gcc-11 && g++-11'
-        sudo apt install gcc-11 g++-11
+        sudo apt-get install gcc-11 g++-11
 
         sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-11 110 --slave /usr/bin/g++ g++ /usr/bin/g++-11 --slave /usr/bin/gcov gcov /usr/bin/gcov-11 --slave /usr/bin/gcc-ar gcc-ar /usr/bin/gcc-ar-11 --slave /usr/bin/gcc-ranlib gcc-ranlib /usr/bin/gcc-ranlib-11  --slave /usr/bin/cpp cpp /usr/bin/cpp-11;
         sudo update-alternatives --set g++ /usr/bin/g++-11

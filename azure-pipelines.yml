@@ -25,9 +25,6 @@ steps:
         sudo apt-get update
         echo 'install -> gcc-11'
         sudo apt-get install g++-11 gcc-11
-        echo 'upgrade -> '
-        sudo apt-get upgrade -y -f build-essential gfortran r-base-dev
-        export PATH="/usr/bin/gcc-11:$PATH"
         which gcc-11
         ls -all
         gcc-11 -v
@@ -38,4 +35,4 @@ steps:
       cmakeListsTxtPath: './CMakeLists.txt'
       cmakeGenerator: 'Ninja'
       buildDirectory: './build'
-      buildWithCMakeArgs: '-DCMAKE_C_COMPILER=/usr/bin/gcc-11 -DCMAKE_CXX_COMPILER=/usr/bin/g++-11'
+      buildWithCMakeArgs: '--DCMAKE_C_COMPILER=/usr/bin/gcc-11 --DCMAKE_CXX_COMPILER=/usr/bin/g++-11'

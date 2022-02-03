@@ -16,12 +16,11 @@ pool:
 
 steps:
   - task: Bash@3
+    displayName: gcc-9 -> gcc-11 upgrading
     inputs:
       targetType: 'inline'
       script: |
         # Write your commands here
-        
-
 
         sudo add-apt-repository ppa:ubuntu-toolchain-r/test
         sudo apt-get update 
@@ -41,13 +40,12 @@ steps:
 
         gcc --version
         g++ --version
-
-        ls -all
+        cpp --version
 
   - task: run-cmake@0
     inputs:
       cmakeListsOrSettingsJson: 'CMakeListsTxtBasic'
       cmakeListsTxtPath: './CMakeLists.txt'
-      cmakeBuildType: 'Debug -DCMAKE_C_COMPILER=/usr/bin/gcc-11 -DCMAKE_CXX_COMPILER=/usr/bin/g++-11'
+      cmakeBuildType: 'Debug'
       cmakeGenerator: 'Ninja'
       buildDirectory: './build'

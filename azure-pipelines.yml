@@ -21,10 +21,10 @@ steps:
       script: |
         # Write your commands here
         
-        sudo apt-get install -y gcc
+        sudo apt-get upgrade gcc
         which gcc
         ls -all
-        gcc
+        gcc -v
 
   - task: run-cmake@0
     inputs:

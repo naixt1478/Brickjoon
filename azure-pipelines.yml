@@ -21,6 +21,8 @@ steps:
       script: |
         # Write your commands here
         
+        sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+        sudo apt-get update
         echo 'install -> gcc-11'
         sudo apt-get upgrade -y -f build-essential g++ gcc gfortran r-base-dev
         export PATH="/usr/bin/gcc:$PATH"
@@ -34,4 +36,4 @@ steps:
       cmakeListsTxtPath: './CMakeLists.txt'
       cmakeGenerator: 'Ninja'
       buildDirectory: './build'
-      buildWithCMakeArgs: '-DCMAKE_CXX_COMPILER=g++-11'
+      buildWithCMakeArgs: '-DCMAKE_C_COMPILER=/usr/bin/gcc-11 -DCMAKE_CXX_COMPILER=/usr/bin/g++-11'

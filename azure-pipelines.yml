@@ -33,6 +33,6 @@ steps:
     inputs:
       cmakeListsOrSettingsJson: 'CMakeListsTxtBasic'
       cmakeListsTxtPath: './CMakeLists.txt'
+      cmakeBuildType: 'Debug -DCMAKE_C_COMPILER=/usr/bin/gcc-11 -DCMAKE_CXX_COMPILER=/usr/bin/g++-11'
       cmakeGenerator: 'Ninja'
       buildDirectory: './build'
-      buildWithCMakeArgs: '--DCMAKE_C_COMPILER=/usr/bin/gcc-11 --DCMAKE_CXX_COMPILER=/usr/bin/g++-11'

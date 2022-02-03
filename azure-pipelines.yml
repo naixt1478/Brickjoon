@@ -10,14 +10,42 @@ trigger:
 pool:
   vmImage: ubuntu-latest
   variables:
-    CC: gcc-11.2
-    CXX: g++-11.2
+    CC: gcc-11
+    CXX: g++-11
     CXXFLAGS: -lstdc++fs
 
 steps:
+  - task: Bash@3
+    displayName: gcc-9 -> gcc-11 upgrading
+    inputs:
+      targetType: 'inline'
+      script: |
+        # Write your commands here
+
+        sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+        sudo apt-get update 
+        sudo apt-get upgrade build-essential manpages-dev software-properties-common
+        sudo update-alternatives --remove-all gcc
+        sudo update-alternatives --remove-all g++
+        sudo update-alternatives --remove-all cpp
+        echo 'install -> gcc-11 && g++-11'
+        sudo apt-get install gcc-11 g++-11 cpp-11
+
+        sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-11 110 --slave /usr/bin/g++ g++ /usr/bin/g++-11 --slave /usr/bin/cpp cpp /usr/bin/cpp-11
+        sudo update-alternatives --set g++ /usr/bin/g++-11
+        sudo update-alternatives --set gcc /usr/bin/gcc-11
+        sudo update-alternatives --set cpp-bin /usr/bin/cpp-11
+
+        update-alternatives --list gcc
+
+        gcc --version
+        g++ --version
+        cpp --version
+
   - task: run-cmake@0
     inputs:
       cmakeListsOrSettingsJson: 'CMakeListsTxtBasic'
       cmakeListsTxtPath: './CMakeLists.txt'
+      cmakeBuildType: 'Debug'
       cmakeGenerator: 'Ninja'
       buildDirectory: './build'

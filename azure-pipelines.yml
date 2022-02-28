@@ -31,9 +31,6 @@ steps:
         echo 'install -> gcc-11 && g++-11'
         sudo apt-get install gcc-11 g++-11 cpp-11
         sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-11 110 --slave /usr/bin/g++ g++ /usr/bin/g++-11 --slave /usr/bin/cpp cpp /usr/bin/cpp-11
-        # sudo update-alternatives --set g++ /usr/bin/g++-11
-        # sudo update-alternatives --set gcc /usr/bin/gcc-11
-        # sudo update-alternatives --set cpp-bin /usr/bin/cpp-11
         update-alternatives --list gcc
 
   - task: run-cmake@0

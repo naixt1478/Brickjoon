@@ -1,6 +1,7 @@
 {
     "cmake.useCMakePresets": false,
     "files.associations": {
-        "iostream": "cpp"
+        "iostream": "cpp",
+        "ranges": "cpp"
     }
 }

@@ -5,6 +5,11 @@
 # include GNU 
 include/*
 
+# disable high rating showing
+Brickjoon_Src/Platinum*/*
+Brickjoon_Src/Diamond*/*
+Brickjoon_src/Ruby*/*
+
 # soon codeforce
 codeforce/*
 

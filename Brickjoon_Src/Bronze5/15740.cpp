@@ -1,157 +1,128 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int ch_temp = 0;
-
-void stoi_deq(deque<int> & deq, string s1)
+int ctoi(char c)
 {
-	for(int i = 0 + (s1[0] == '-'); i < s1.size(); i++)
-	{
-		deq.push_back((s1[0] == '-' ? (-(s1[i] - '0')) : (s1[i] - '0')));
-	}
+	return c - '0';
 }
 
-void swap_large_str(string* left,string* right)
+void ch_sign1(deque<int>& deq, string& str)
 {
-	string temp;
-	string str1 = *left, str2 = *right;
-	if (str1[0] == '-') str1.erase(0, 1);
-	if (str2[0] == '-') str2.erase(0, 1);
-
-	if (str1.length() < str2.length())
+	if (str[0] == '-')
 	{
-		swap(*left, *right);
-	}
-	else if (str1.length() == str2.length())
-	{
-		if(str1 < str2)
+		for (int i = 1; i < str.size(); i++)
 		{
-			swap(*left, *right);
-		}
-	}
-}
-
-void req_sp(deque<int>& deq, int b, int index, int tri)
-{
-	int temp;
-	if (deq[0] < 0)
-	{
-		if (tri == 1)
-		{
-			if (deq[deq.size() - index] + b > 0)
-			{
-				deq[deq.size() - index - 1]++;
-				deq[deq.size() - index] += b;
-				deq[deq.size() - index] = -(10 - deq[deq.size() - index]);
-				req_sp(deq, 0, index + 1, 1);
-			}
-			else
-			{
-				deq[deq.size() - index] += b;
-			}
+			deq.push_back(-ctoi(str[i]));
 		}
 	}
 	else
 	{
-		if (tri == 0)
+		for (int i = 0; i < str.size(); i++)
 		{
-			if (deq[deq.size() - index] + b < 0)
-			{
-				deq[deq.size() - index - 1]--;
-				deq[deq.size() - index] += b;
-				deq[deq.size() - index] += 10;
-				req_sp(deq, 0, index + 1, 0);
-			}
-			else
-			{
-				deq[deq.size() - index] += b;
-			}
+			deq.push_back(ctoi(str[i]));
 		}
 	}
 }
 
-void req_plus(deque<int>& vec,int b,int index)
+void solve(deque<int>& d1, deque<int>& d2)
 {
-	if (ch_temp == true) return req_sp(vec, b, index, 1);
-	vec[vec.size() - index] += b;
-	if(vec[vec.size() - index] > 9)
+	int a(-1);
+	for (int i = 1; i <= d2.size(); i++)
 	{
-		if(vec.size() - index == 0)
-		{
-			int temp = vec[vec.size() - index];
-			vec[vec.size() - index] %= 10;
-			vec.push_front(temp / 10);
-			return;
-		}
-		vec[vec.size() - index - 1] += vec[vec.size() - index] / 10;
-		vec[vec.size() - index] %= 10;
-		req_plus(vec, 0, index + 1);
+		d1.at(d1.size() - i) += d2.at(d2.size() - i);
 	}
-}
 
-void req_minus(deque<int>& deq,int b,int index)
-{
-	if (ch_temp == true) return req_sp(deq, b, index, 0);
-	int temp;
-	if(abs(deq[deq.size() - index]) + abs(b) > 9)
+	while(true)
 	{
-		if(deq.size() - index == 0)
+		if (d1.size() != 1 && d1[0] == 0)
 		{
-			temp = abs(deq[deq.size() - index]) + abs(b);
-			deq[deq.size() - index] = -(temp % 10);
-			deq.push_front(-temp / 10);
-			return;
-		}
-		temp = abs(deq[deq.size() - index]) + abs(b);
-		deq[deq.size() - index - 1] = -abs(deq[deq.size() - index - 1]) - (temp / 10);
-		deq[deq.size() - index] = -(temp % 10);
-		req_minus(deq, 0, index + 1);
-	}
-	else
-	{
-		deq[deq.size() - index] = -abs(deq[deq.size() - index]) - abs(b);
-	}
-}
-
-void solve_sp(string s1, string s2)
-{
-	
-	swap_large_str(&s1, &s2);
-	deque<int> a,b;
-	if (s1[0] == '-' && s2[0] != '-') ch_temp = 1;
-	if (s1[0] != '-' && s2[0] == '-') ch_temp = 1;
-	stoi_deq(a, s1);
-	stoi_deq(b, s2);
-	for(int i = b.size(); i > 0; i--)
-	{
-		if (b[b.size() - i] >= 0)
-		{
-			req_plus(a, b[b.size() - i], i);
+			d1.pop_front();
 		}
 		else
 		{
-			req_minus(a, b[b.size() - i], i);
+			a++;
 		}
-		while(a[0]==0 && a.size() != 1)
+
+		if (d1[d1.size() - 1 - a] / -10 >= 1)
 		{
-			a.pop_front();
+			if (d1.size() - 1 - a == 0)
+			{
+				d1.push_front(-(d1[d1.size() - 1 - a] / -10));
+			}
+			else
+			{
+				d1[d1.size() - 2 - a] -= d1[d1.size() - 1 - a] / -10;
+			}
+			d1[d1.size() - 1 - a] %= -10;
+		}
+		else if (d1[d1.size() - 1 - a] / 10 >= 1)
+		{
+			if (d1.size()-1-a == 0)
+			{
+				d1.push_front(d1[d1.size()-1-a] / 10);
+			}
+			else
+			{
+				d1[d1.size() - 2 - a] += d1[d1.size() - 1 - a] / 10;
+			}
+			d1[d1.size()-1-a] %= 10;
+		}
+		else if (a == d1.size() - 1)
+		{
+			break;
+		}
+		else if (d1[0 + a] > 0 && d1[1 + a] < 0)
+		{
+			d1[0 + a]--;
+			d1[1 + a] += 10;
+		}
+		else if (d1[0 + a] < 0 && d1[1 + a] >= 0)
+		{
+			for (int i = 1 + a; i < d1.size(); i++)
+			{
+				if (d1[i] != 0)
+				{
+					d1[0 + a]++;
+					d1[1 + a] += -10;
+					break;
+				}
+			}
 		}
 	}
 
-	for(int i = 0; i < a.size(); i++)
+	for (int i = 0; i < d1.size(); i++)
 	{
-		if (i == 0) cout << a[i];
-		else cout << abs(a[i]);
+		if (i == 0) cout << d1.at(i);
+		else cout << abs(d1.at(i));
 	}
+	
 }
+
 
 int main()
 {
-	ios_base::sync_with_stdio(0);
 	cin.tie(nullptr);
-	string num1, num2;
-	cin >> num1 >> num2;
-	solve_sp(num1, num2);
+	ios_base::sync_with_stdio(false);
+	deque<int> d1, d2;
+	string s1,s2;
+	cin >> s1 >> s2;
+	ch_sign1(d1, s1);
+	ch_sign1(d2, s2);
+	if (d1.size() >= d2.size())
+	{
+		solve(d1, d2);
+	}
+	else
+	{
+		solve(d2, d1);
+	}
 }
 
-// solve!!
+/* π›∑ 
+* 9876543210 -1234567890 
+* æ∆«≤ : 8642024680
+* ¡§¥‰ : 8641975320
+* ≥ª¿œ «»Ω∫
+*/ 
+
+// solve in progress

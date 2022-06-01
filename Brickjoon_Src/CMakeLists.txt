@@ -2,7 +2,7 @@
 project(brickjoon_source)
 
 # get source lists
-file(GLOB_RECURSE BRICKJOON_LIST CONFIGURE_DEPENDS "*/*.cpp")
+file(GLOB_RECURSE BRICKJOON_LIST CONFIGURE_DEPENDS "*.cpp" "*.c")
 
 # source -> bin
 foreach(SOURCE_PATH ${BRICKJOON_LIST})
@@ -16,6 +16,6 @@ foreach(SOURCE_PATH ${BRICKJOON_LIST})
 	# log
 	MESSAGE(STATUS "add : " ${LAST_DIR_NAME}_${EXECUTABLE_NAME})
 	# done
-	endforeach(SOURCE_PATH ${BRICKJOON_LIST})
+endforeach(SOURCE_PATH ${BRICKJOON_LIST})
 # return finish
 MESSAGE(STATUS "done : src/")

@@ -22,4 +22,4 @@ int main()
 	}
 }
 
-// solv	e
+// solve

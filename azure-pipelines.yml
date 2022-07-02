@@ -13,9 +13,7 @@ pool:
     CC: gcc-11
     CXX: g++-11
     CXXFLAGS: -lstdc++fs
-
 steps:
-
   - task: run-cmake@0
     displayName: Run Cmake -> build ninja
     inputs:
@@ -24,3 +22,4 @@ steps:
       cmakeBuildType: 'Debug'
       cmakeGenerator: 'Ninja'
       buildDirectory: './build'
+      buildWithCMakeArgs: '--coverage'

@@ -5,6 +5,11 @@
 # include GNU 
 include/*
 
+# disable high rating showing
+Brickjoon_Src/Platinum*/*
+Brickjoon_Src/Diamond*/*
+Brickjoon_src/Ruby*/*
+
 # soon codeforce
 codeforce/*
 
@@ -444,3 +449,5 @@ FodyWeavers.xsd
 # Additional files built by Visual Studio
 
 # End of https://www.toptal.com/developers/gitignore/api/cmake,visualstudio,executable,visualstudiocode
+
+*.dll

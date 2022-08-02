@@ -2,7 +2,7 @@
 project(brickjoon_source)
 
 # get source lists
-file(GLOB_RECURSE BRICKJOON_LIST CONFIGURE_DEPENDS "*.cpp" "*.c")
+file(GLOB_RECURSE BRICKJOON_LIST CONFIGURE_DEPENDS "*.cpp" "*.c" "*.cc")
 
 # source -> bin
 foreach(SOURCE_PATH ${BRICKJOON_LIST})

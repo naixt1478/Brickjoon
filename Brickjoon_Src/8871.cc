@@ -8,3 +8,5 @@ int main()
     n++;
     cout << n*2 << ' ' << n*3; 
 }
+
+// solve

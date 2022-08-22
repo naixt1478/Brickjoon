@@ -11,6 +11,11 @@ foreach(SOURCE_PATH ${BRICKJOON_LIST})
 	# get last dir name
 	get_filename_component(FULL_DIR_NAME ${SOURCE_PATH} PATH)
 	get_filename_component(LAST_DIR_NAME ${FULL_DIR_NAME} NAME)
+	# check exception folder
+	if(${LAST_DIR_NAME} STREQUAL sip)
+		# abort
+		continue()
+	endif()
 	# last dir + number(name) 
 	add_executable (${LAST_DIR_NAME}-${EXECUTABLE_NAME} ${SOURCE_PATH})
 	# log

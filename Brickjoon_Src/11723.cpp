@@ -45,3 +45,5 @@ int main()
         else i1 = 0;
     }
 }
+
+// solve

@@ -9,3 +9,5 @@ int main()
         >> v >> d >> j;
     cout << (v*d*j)*(vk*jk + vl*jl); 
 }
+
+// solve

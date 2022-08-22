@@ -7,3 +7,5 @@ int main()
     cin >> a >> b;
     cout << a*8+b*3-28;
 }
+
+// solve

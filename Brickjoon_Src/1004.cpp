@@ -7,15 +7,14 @@ void s1()
 	int x1, y1, x2, y2, T2, cx, cy, r, i1{};
 	cin >> x1 >> y1 >> x2 >> y2;
 	cin >> T2;
-	while (T2--)
+	while(T2--)
 	{
 		cin >> cx >> cy >> r;
-		if (cx - r < x1 && x1 < cx + r && cy - r < y1 && y1 < cy + r || cx - r < x2 && x2 < cx + r && cy - r < y2 && y2 < cy + r)
+		long double r1 = powl(x1 - cx, 2) + powl(y1 - cy, 2);
+		long double r2 = powl(x2 - cx, 2) + powl(y2 - cy, 2);
+		if(r1 >= r*r xor r2 >= r*r)
 		{
-			if (!(cx - r < x1 && x1 < cx + r && cy - r < y1 && y1 < cy + r && cx - r < x2 && x2 < cx + r && cy - r < y2 && y2 < cy + r))
-			{
-				i1++;
-			}
+			i1++;
 		}
 	}
 	cout << i1 << '\n';
@@ -31,3 +30,5 @@ int main()
 		s1();
 	}
 }
+
+// solve

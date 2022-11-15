@@ -5,22 +5,23 @@ project(brickjoon_source)
 file(GLOB_RECURSE BRICKJOON_LIST CONFIGURE_DEPENDS "*.cpp" "*.c" "*.cc")
 
 # source -> bin
-foreach(SOURCE_PATH ${BRICKJOON_LIST})
+# foreach(SOURCE_PATH ${BRICKJOON_LIST})
 	# get solve source number(name)
-	get_filename_component(EXECUTABLE_NAME ${SOURCE_PATH} NAME_WE)
+#	get_filename_component(EXECUTABLE_NAME ${SOURCE_PATH} NAME_WE)
 	# get last dir name
-	get_filename_component(FULL_DIR_NAME ${SOURCE_PATH} PATH)
-	get_filename_component(LAST_DIR_NAME ${FULL_DIR_NAME} NAME)
+#	get_filename_component(FULL_DIR_NAME ${SOURCE_PATH} PATH)
+#	get_filename_component(LAST_DIR_NAME ${FULL_DIR_NAME} NAME)
 	# check exception folder
-	if(${LAST_DIR_NAME} STREQUAL sip)
+#	if(${LAST_DIR_NAME} STREQUAL sip)
 		# abort
-		continue()
-	endif()
-	# last dir + number(name) 
-	add_executable (${LAST_DIR_NAME}-${EXECUTABLE_NAME} ${SOURCE_PATH})
+#		continue()
+#	endif()
+	# last dir + number(name)
+#	add_executable (${LAST_DIR_NAME}-${EXECUTABLE_NAME} ${SOURCE_PATH})
 	# log
-	MESSAGE(STATUS "add : " ${LAST_DIR_NAME}_${EXECUTABLE_NAME})
+#	MESSAGE(STATUS "add : " ${LAST_DIR_NAME}_${EXECUTABLE_NAME})
 	# done
-endforeach(SOURCE_PATH ${BRICKJOON_LIST})
+#endforeach(SOURCE_PATH ${BRICKJOON_LIST})
 # return finish
+add_executable(5800 5800.cc)
 MESSAGE(STATUS "done : src/")

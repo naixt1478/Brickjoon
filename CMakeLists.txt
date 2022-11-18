@@ -41,7 +41,6 @@ endif()
 # include GNU compiler /bits header
 
 add_subdirectory(./Brickjoon_Src)
-add_subdirectory(./Codeforces_Src)
 # source directory add
 
 MESSAGE(STATUS "done : root/")

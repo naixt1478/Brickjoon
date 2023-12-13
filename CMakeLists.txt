@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 3.20)
+cmake_minimum_required (VERSION 3.21)
 # cmake req version
 
 project (Brickjoon)
@@ -9,9 +9,11 @@ set(CMAKE_BUILD_DIR /build)
 set(CMAKE_BUILD_TYPE Debug)
 set(CURRENT_SOURCE_DIR "Brickjoon")
 
-# REQ CXX 20 <=
+# REQ CXX 20, C 23
 set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_C_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_C_STANDARD_REQUIRED ON)
 
 # option LINE
 message(STATUS "coverage status : " ${ENABLE_COVERAGE})
@@ -27,12 +29,12 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
 
 elseif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
 	message(STATUS "GNU detected include skip")
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++20")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Werror")
 	if(ENABLE_COVERAGE)
 		add_compile_options(--coverage)
 		add_link_options(--coverage)
 	endif()
-
+	
 else()
 	message(STATUS "not suppoted toolchain")
 

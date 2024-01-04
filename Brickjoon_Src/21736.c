@@ -11,7 +11,6 @@ typedef struct node
 {
     data_t data;
     struct node* next;
-    struct node* prev;
 } node;
 
 typedef struct queue
@@ -34,14 +33,15 @@ int main(void)
 {
     scanf("%d %d", &N, &M);
     char** arr1 = (char**)malloc(sizeof(char*) * N);
-    int** arr2 = (int**)malloc(sizeof(int*)*N);
+    int** arr2 = (int**)malloc(sizeof(int*) * N);
     for(int i = 0; i < N; i++)
     {
-        arr1[i] = malloc(sizeof(char) * M);
-        arr2[i] = calloc(M, sizeof(int));
+        arr1[i] = (char*)malloc(sizeof(char) * (M+1));
+        arr2[i] = (int*)malloc(sizeof(int) * M);
         scanf("%s", arr1[i]);
         for(int j = 0; j < M; j++)
         {
+            arr2[i][j] = 0;
             if(arr1[i][j] == 'I')
             {
                 y = i;
@@ -50,13 +50,17 @@ int main(void)
         }
     }
     bfs_s1(arr1,arr2);
-    for(int i = 0; i < M; i++)
+    for(int i = 0; i < N; i++)
     {
         free(arr1[i]);
+        arr1[i] = NULL;
         free(arr2[i]);
+        arr2[i] = NULL;
     }
     free(arr1);
+    arr1 = NULL;
     free(arr2);
+    arr2 = NULL;
     if(a==0) printf("TT");
     else printf("%d", a);
     return 0;
@@ -64,14 +68,12 @@ int main(void)
 
 void bfs_s1(char** arr1,int** arr2)
 {
-    printf("checking in, %d | %d",x,y);
     data_t root = {x,y};
     arr2[y][x] = 1;
     queue* q1 = initqueue();
     enqueue(q1, root);
     while(q1->front != NULL)
     {
-        printf("%d | %d\n", q1->front->data.x, q1->front->data.y);
         data_t d2 = q1->front->data;
         dequeue(q1);
         for(int i = 0; i < 4; i++)
@@ -79,7 +81,7 @@ void bfs_s1(char** arr1,int** arr2)
             int nx = d2.x+D1[i].x, ny = d2.y+D1[i].y;
             if(0 <= nx && nx < M && 0 <= ny && ny < N)
             {
-                if(arr2[ny][nx] == 0 && arr1[ny][nx] == 'X')
+                if(arr2[ny][nx] == 0 && arr1[ny][nx] != 'X')
                 {
                     arr2[ny][nx] = 1;
                     data_t d3 = {nx,ny};
@@ -89,6 +91,8 @@ void bfs_s1(char** arr1,int** arr2)
             }
         }
     }
+    free(q1);
+    q1 = NULL;
 }
 
 queue* initqueue()
@@ -98,6 +102,7 @@ queue* initqueue()
     {
         return NULL;
     }
+    tmp->size = 0;
     tmp->front = NULL;
     tmp->back = NULL;
     return tmp;
@@ -112,7 +117,6 @@ node* initnode(data_t i1)
     }
     tmp->next = NULL;
     tmp->data = i1;
-    tmp->prev = NULL;
     return tmp;
 }
 
@@ -123,13 +127,11 @@ void enqueue(queue* q1, data_t i1)
     {
         q1->back = tmp;
         q1->front = tmp;
-        q1->size = 1;
-        return;
+        q1->size += 1;
     }
     else
     {
         q1->back->next = tmp;
-        tmp->prev = q1->back;
         q1->back = tmp;
         q1->size += 1;
     }
@@ -137,11 +139,15 @@ void enqueue(queue* q1, data_t i1)
 
 void dequeue(queue* q1)
 {
+    // empty queue not run dequeue
     if(q1->size == 0) return;
     node* tmp = q1->front;
     q1->front = q1->front->next;
-    q1->front->prev = NULL;
+    if(tmp->next == NULL)
+        q1->back = NULL;
     q1->size -= 1;
-    if(q1->size == 0) q1->back = NULL;
     free(tmp);
+    tmp = NULL;
 }
+
+// solve

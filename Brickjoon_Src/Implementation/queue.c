@@ -1,16 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
-// Doubly Linked List
+// Linked List
 typedef struct data_t
 {
-    int d1,d2;
+    int x,y;
 } data_t;
 
 typedef struct node
 {
     data_t data;
     struct node* next;
-    struct node* prev;
 } node;
 
 typedef struct queue
@@ -40,6 +39,7 @@ queue* initqueue()
     {
         return NULL;
     }
+    tmp->size = 0;
     tmp->front = NULL;
     tmp->back = NULL;
     return tmp;
@@ -54,7 +54,6 @@ node* initnode(data_t i1)
     }
     tmp->next = NULL;
     tmp->data = i1;
-    tmp->prev = NULL;
     return tmp;
 }
 
@@ -65,22 +64,25 @@ void enqueue(queue* q1, data_t i1)
     {
         q1->back = tmp;
         q1->front = tmp;
-        q1->size = 1;
-        return;
+        q1->size += 1;
     }
-    q1->back->next = tmp;
-    tmp->prev = q1->back;
-    q1->back = tmp;
-    q1->size += 1;
+    else
+    {
+        q1->back->next = tmp;
+        q1->back = tmp;
+        q1->size += 1;
+    }
 }
 
 void dequeue(queue* q1)
 {
+    // empty queue not run dequeue
     if(q1->size == 0) return;
     node* tmp = q1->front;
     q1->front = q1->front->next;
-    q1->front->prev = NULL;
+    if(tmp->next == NULL)
+        q1->back = NULL;
     q1->size -= 1;
-    if(q1->size == 0) q1->back = NULL;
     free(tmp);
+    tmp = NULL;
 }

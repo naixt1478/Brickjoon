@@ -33,7 +33,7 @@ typedef struct f_table
 
 node* init_h_node(char* key, data_t value);
 h_table** init_h_table(int BSIZE);
-int free_h_table_solveEd(h_table** nt2, int BSIZE, f_table* ft1);
+void free_h_table(h_table** nt2, int BSIZE, f_table* ft1);
 
 int match_key(void* a, void* b);
 void insert_h_table(h_table** nt2, char* key, data_t value, f_table*,int);
@@ -43,26 +43,26 @@ node* index_h_table(h_table** nt2,char* key,int BSIZE);
 
 ui64_t make_key_djb2(char* key,int BSIZE);
 
-int T,N,M;
-char a[30],b[30];
+int N,b,M;
+char a[30];
+const int BUCKET_SIZE = 500000;
 int main(void)
 {
-    scanf("%d", &T);
-    for(int i = 0; i < T; i++)
+    scanf("%d", &N);
+    h_table** ht1 = init_h_table(N);
+    f_table ft1 = {NULL};
+    for(int i = 0; i < N; i++)
     {
-        scanf("%d", &N);
-        h_table** ht1 = init_h_table(N);
-        f_table ft1 = {NULL};
-        for(int j = 0; j < N; j++)
-        {
-            scanf("%s %s",a,b);
-            if(search_h_table(ht1,b,N))
-                index_h_table(ht1,b,N)->data += 1;
-            else
-                insert_h_table(ht1,b,1,&ft1,N);
-        }
-        printf("%d\n", free_h_table_solveEd(ht1,N,&ft1) - 1);
+        scanf("%s", a);
+        insert_h_table(ht1,a,1,&ft1,N);
     }
+    scanf("%d", &M);
+    for(int j = 0; j < M; j++)
+    {
+        scanf("%s", a);
+        printf("%d ",search_h_table(ht1, a, N));
+    }
+    free_h_table(ht1,N,&ft1);
 }
 
 node* init_h_node(char* key, data_t value)
@@ -85,13 +85,11 @@ h_table** init_h_table(int BSIZE)
     }
     return nt2;
 }
-int free_h_table_solveEd(h_table** nt2, int BSIZE,f_table* ft1)
+void free_h_table(h_table** nt2, int BSIZE,f_table* ft1)
 {
-    int sum1 = 1;
     fnode* tmp = ft1->root;
     while(tmp != NULL)
     {
-        sum1 *= (tmp->free->data + 1);
         free(tmp->free);
         fnode* tmp2 = tmp;
         tmp = tmp->next;
@@ -99,7 +97,6 @@ int free_h_table_solveEd(h_table** nt2, int BSIZE,f_table* ft1)
     }
     for(int i = 0; i < BSIZE; i++) free(nt2[i]);
     free(nt2);
-    return sum1;
 }
 
 node* index_h_table(h_table** nt2, char* key,int BSIZE)

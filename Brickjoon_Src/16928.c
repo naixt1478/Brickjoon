@@ -26,9 +26,15 @@ node* initnode(data_t i1);
 
 int main(void)
 {
-    queue* q1 = initqueue();
-    data_t a = {10,20};
-    enqueue(q1,a);
+    int N,M;
+    scanf("%d %d", &N, &M);
+    int** arr1 = (int**)malloc(sizeof(int*)*10);
+    int** arr1 = (int**)malloc(sizeof(int*)*10);
+    for(int i = 0; i < 10; i++)
+    {
+        arr1[i] = (int*)calloc(10, sizeof(int));
+    }
+
     return 0;
 }
 

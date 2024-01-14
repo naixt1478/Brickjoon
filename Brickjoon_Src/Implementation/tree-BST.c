@@ -1,15 +1,15 @@
 #include <stdio.h>
 
-struct node
+typedef struct node
 {
     int key;
     struct node *left, *right, *parent;
-};
+} node;
 
-struct Tree
+typedef struct Tree
 {
-    node* root = NULL;
-};
+    node* root;
+} Tree;
 
 void bst_insert(Tree*, int);
 node* create_node(int);
@@ -36,15 +36,15 @@ void bst_insert(Tree* t1, int key)
     while(iptr2 != NULL)
     {
         iptr1 = iptr2;
-        if(z.key < iptr2.key)
-            iptr2 = iptr2.left;
+        if(z->key < iptr2->key)
+            iptr2 = iptr2->left;
         else
-            iptr2 = iptr2.right;
+            iptr2 = iptr2->right;
     }
-    z.parent = iptr1;
+    z->parent = iptr1;
     if(iptr1 == NULL)
         t1->root = z;
-    else if(z.key < iptr1.key)
+    else if(z->key < iptr1->key)
         iptr1->left = z;
     else
         iptr1->right = z;

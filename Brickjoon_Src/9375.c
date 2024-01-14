@@ -33,7 +33,7 @@ typedef struct f_table
 
 node* init_h_node(char* key, data_t value);
 h_table** init_h_table(int BSIZE);
-int free_h_table_solveEd(h_table** nt2, int BSIZE, f_table* ft1);
+long long int free_h_table_solveEd(h_table** nt2, int BSIZE, f_table* ft1);
 
 int match_key(void* a, void* b);
 void insert_h_table(h_table** nt2, char* key, data_t value, f_table*,int);
@@ -47,12 +47,18 @@ int T,N,M;
 char a[30],b[30];
 int main(void)
 {
+    f_table ft1 = {NULL};
     scanf("%d", &T);
     for(int i = 0; i < T; i++)
     {
+        ft1.root = NULL;
         scanf("%d", &N);
+        if(N==0)
+        {
+            printf("0\n");
+            continue;
+        }
         h_table** ht1 = init_h_table(N);
-        f_table ft1 = {NULL};
         for(int j = 0; j < N; j++)
         {
             scanf("%s %s",a,b);
@@ -61,7 +67,7 @@ int main(void)
             else
                 insert_h_table(ht1,b,1,&ft1,N);
         }
-        printf("%d\n", free_h_table_solveEd(ht1,N,&ft1) - 1);
+        printf("%lld\n", free_h_table_solveEd(ht1,N,&ft1) - 1);
     }
 }
 
@@ -85,13 +91,13 @@ h_table** init_h_table(int BSIZE)
     }
     return nt2;
 }
-int free_h_table_solveEd(h_table** nt2, int BSIZE,f_table* ft1)
+long long int free_h_table_solveEd(h_table** nt2, int BSIZE,f_table* ft1)
 {
-    int sum1 = 1;
+    long long int sum1 = 1;
     fnode* tmp = ft1->root;
     while(tmp != NULL)
     {
-        sum1 *= (tmp->free->data + 1);
+        sum1 = sum1 * (tmp->free->data + 1);
         free(tmp->free);
         fnode* tmp2 = tmp;
         tmp = tmp->next;
@@ -144,9 +150,11 @@ void insert_h_table(h_table** nt2, char* key, data_t value,f_table* ft1,int BSIZ
     }
     else
     {
-        ft1->root->next = (fnode*)malloc(sizeof(fnode));
-        ft1->root->next->free = nt1->root;
-        ft1->root->next->next = NULL;
+        fnode* tmp = ft1->root;
+        while(tmp->next != NULL) tmp = tmp->next;
+        tmp->next = (fnode*)malloc(sizeof(fnode));
+        tmp->next->free = nt1->root;
+        tmp->next->next = NULL;
     }
     nt1->length++;
 }

@@ -1,9 +1,14 @@
+#define min(a,b) \
+   ({ __typeof__ (a) _a = (a); \
+       __typeof__ (b) _b = (b); \
+     _a < _b ? _a : _b; })
 #include <stdio.h>
 #include <stdlib.h>
-// Linked List
+#include <string.h>
+
 typedef struct data_t
 {
-    int x,y;
+    long long int i1,i2;
 } data_t;
 
 typedef struct node
@@ -19,16 +24,37 @@ typedef struct queue
     int size;
 } queue;
 
-void enqueue(queue* q1, data_t i1);
-void dequeue(queue* q1);
-queue* initqueue();
-node* initnode(data_t i1);
 
+void enqueue(queue*,data_t);
+void dequeue(queue*);
+queue* initqueue();
+node* initnode(data_t);
 int main(void)
 {
+    int S = -1;
+    long long int A,B;
+    scanf("%lld %lld", &A, &B);
+    data_t d1 = {A, 0};
     queue* q1 = initqueue();
-    data_t a = {10,20};
-    enqueue(q1,a);
+    enqueue(q1, d1);
+    while(q1->front != NULL)
+    {
+        data_t d2 = q1->front->data;
+        dequeue(q1);
+        if(d2.i1 == B)
+            S = (S == -1 ? d2.i2+1 : min(S,d2.i2+1));
+        if(d2.i1*2 <= B)
+        {
+            data_t d3 = {d2.i1*2, d2.i2+1};
+            enqueue(q1,d3);
+        }
+        if(d2.i1*10+1 <= B)
+        {
+            data_t d3 = {d2.i1*10+1, d2.i2+1};
+            enqueue(q1,d3);
+        }
+    }
+    printf("%d", S);
     return 0;
 }
 
@@ -86,3 +112,4 @@ void dequeue(queue* q1)
     free(tmp);
     tmp = NULL;
 }
+

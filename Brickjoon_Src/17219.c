@@ -5,20 +5,14 @@
 typedef long long int i64_t;
 typedef unsigned long long int ui64_t;
 
-typedef int data_t;
+typedef char* data_t;
 
 typedef struct node
 {
-    char key[50];
-    data_t data;
+    char key[21];
+    char data[21];
     struct node* next;
 } node;
-
-typedef struct h_table
-{
-    node *root;
-    int length;
-} h_table;
 
 typedef struct fnode
 {
@@ -26,92 +20,72 @@ typedef struct fnode
     struct node* free;
 } fnode;
 
+typedef struct h_table
+{
+    node *root;
+    int length;
+} h_table;
+
 typedef struct f_table
 {
     fnode *root;
 } f_table;
 
-node* init_h_node(char* key, data_t value);
-h_table** init_h_table(int BSIZE);
-int free_h_table_solveEd(h_table** nt2, int BSIZE, f_table* ft1);
+node* init_h_node(char*, data_t);
 
-int match_key(void* a, void* b);
-void insert_h_table(h_table** nt2, char* key, data_t value, f_table*,int);
-void remove_h_table(h_table** nt2,char* key,int BSIZE);
-int search_h_table(h_table** nt2, char* key,int BSIZE);
-node* index_h_table(h_table** nt2,char* key,int BSIZE);
+int match_key(void*, void*);
+void insert_h_table(h_table*,char*,data_t,f_table*);
+void remove_h_table(h_table*,char*);
+int search_h_table(h_table*, char*);
+data_t read_h_table(h_table*,char*);
 
-ui64_t make_key_djb2(char* key,int BSIZE);
+ui64_t make_key_djb2(char*,int);
 
-int T,N,M;
-char a[30],b[30];
+int N,M;
+const int BUCKET_SIZE = 100000;
 int main(void)
 {
-    scanf("%d", &T);
-    for(int i = 0; i < T; i++)
+    char c1[21], c2[21];
+    h_table* ht1[BUCKET_SIZE];
+    f_table ft1 = {NULL};
+    for(int i = 0; i < BUCKET_SIZE; i++)
     {
-        scanf("%d", &N);
-        h_table** ht1 = init_h_table(N);
-        f_table ft1 = {NULL};
-        for(int j = 0; j < N; j++)
-        {
-            scanf("%s %s",a,b);
-            if(search_h_table(ht1,b,N))
-                index_h_table(ht1,b,N)->data += 1;
-            else
-                insert_h_table(ht1,b,1,&ft1,N);
-        }
-        printf("%d\n", free_h_table_solveEd(ht1,N,&ft1) - 1);
+        ht1[i] = (h_table*)malloc(sizeof(h_table));
+        ht1[i]->length = 0;
     }
-}
-
-node* init_h_node(char* key, data_t value)
-{
-    node* tmp = malloc(sizeof(node));
-    if(tmp == NULL) return NULL;
-    tmp->next = NULL;
-    tmp->data = value;
-    strcpy(tmp->key, key);
-    return tmp;
-}
-h_table** init_h_table(int BSIZE)
-{
-    h_table** nt2;
-    nt2 = (h_table**)calloc(BSIZE, sizeof(h_table*));
-    for(int i = 0; i < BSIZE; i++)
+    scanf("%d %d", &N, &M);
+    for(int i = 0; i < N; i++)
     {
-        nt2[i] = (h_table*)calloc(1,sizeof(h_table));
-        nt2[i]->root = NULL;
+        scanf("%s %s", c1, c2);
+        insert_h_table(ht1[make_key_djb2(c1,BUCKET_SIZE)], c1, c2, &ft1);
     }
-    return nt2;
-}
-int free_h_table_solveEd(h_table** nt2, int BSIZE,f_table* ft1)
-{
-    int sum1 = 1;
-    fnode* tmp = ft1->root;
+    for(int j = 0; j < M; j++)
+    {
+        scanf("%s", c1);
+        printf("%s\n", read_h_table(ht1[make_key_djb2(c1,BUCKET_SIZE)],c1));
+    }
+    
+    // free phase what is this..
+    fnode* tmp = ft1.root;
     while(tmp != NULL)
     {
-        sum1 *= (tmp->free->data + 1);
         free(tmp->free);
         fnode* tmp2 = tmp;
         tmp = tmp->next;
         free(tmp2);
     }
-    for(int i = 0; i < BSIZE; i++) free(nt2[i]);
-    free(nt2);
-    return sum1;
+    for(int i = 0; i < BUCKET_SIZE; i++) free(ht1[i]);
 }
 
-node* index_h_table(h_table** nt2, char* key,int BSIZE)
+data_t read_h_table(h_table* nt1, char* key)
 {
-    h_table* nt1 = nt2[make_key_djb2(key,BSIZE)];
     node* tmp = nt1->root;
     if(nt1->length >= 1)
     {
         while(1)
         {
             if(match_key(tmp->key, key))
-                return tmp;
+                return tmp->data;
             else if(tmp->next != NULL)
             {
                 tmp = tmp->next;
@@ -122,9 +96,19 @@ node* index_h_table(h_table** nt2, char* key,int BSIZE)
     }
     return NULL;
 }
-void insert_h_table(h_table** nt2, char* key, data_t value,f_table* ft1,int BSIZE)
+
+node* init_h_node(char* key, data_t value)
 {
-    h_table* nt1 = nt2[make_key_djb2(key,BSIZE)];
+    node* tmp = malloc(sizeof(node));
+    if(tmp == NULL) return NULL;
+    tmp->next = NULL;
+    strcpy(tmp->data, value);
+    strcpy(tmp->key, key);
+    return tmp;
+}
+
+void insert_h_table(h_table* nt1, char* key, data_t value,f_table* ft1)
+{
     if(nt1->length > 0)
     {
         // detect hash collision
@@ -136,6 +120,7 @@ void insert_h_table(h_table** nt2, char* key, data_t value,f_table* ft1,int BSIZ
     {
         nt1->root = init_h_node(key, value);
     }
+    // free_table
     if(ft1->root == NULL)
     {
         ft1->root = (fnode*)malloc(sizeof(fnode));
@@ -150,9 +135,8 @@ void insert_h_table(h_table** nt2, char* key, data_t value,f_table* ft1,int BSIZ
     }
     nt1->length++;
 }
-void remove_h_table(h_table** nt2, char* key, int BSIZE)
+void remove_h_table(h_table* nt1, char* key)
 {
-    h_table* nt1 = nt2[make_key_djb2(key,BSIZE)];
     if(nt1->length >= 1)
     {
         node* bf = NULL;
@@ -177,9 +161,8 @@ void remove_h_table(h_table** nt2, char* key, int BSIZE)
         }
     }
 }
-int search_h_table(h_table** nt2, char* key,int BSIZE)
+int search_h_table(h_table* nt1, char* key)
 {
-    h_table* nt1 = nt2[make_key_djb2(key,BSIZE)];
     node* tmp = nt1->root;
     if(nt1->length >= 1)
     {

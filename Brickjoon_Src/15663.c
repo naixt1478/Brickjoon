@@ -1,30 +1,37 @@
-#define min(a,b) (((a)<(b))?(a):(b))
-#define max(a,b) (((a)>(b))?(a):(b))
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
+#include <stdlib.h>
 
 void merge_sort(int*, int, int);
 void merge(int*,int*,int,int,int,int);
+void solve(int* arr1, int* parr1);
 
 int main(void)
 {
+    int N, M;
+    scanf("%d %d", &N, &M);
+    int* arr1 = (int*)calloc(N,sizeof(int));
+    int* arr2 = (int*)calloc(M,sizeof(int));
+    for(int i = 0; i < N; i++) scanf("%d", &arr1[i]);
+    merge_sort(arr1, N, 0);
+    solve(arr1, arr2);
+    free(arr1);
+    free(arr2);
     return 0;
 }
-// bottom-up sort
-// comp 1 : 내림차순
-// comp 0 : 오름차순
-// len : 배열크기
-// arr : 배열포인터(배열 주소)
+
+void solve(int* arr1, int* parr1)
+{
+    
+}
+
 void merge_sort(int* arr, int len, int comp)
 {  
     int* warr = (int*)malloc(len*sizeof(int));
     for(int i = 1; i < len; i*=2)
     {
         for(int j = 0; j < len; j += 2 * i)
-        {
             merge(arr, warr, j, min(j+i, len), min(j+i*2,len), comp);
-        }
         memcpy(arr, warr, len*sizeof(int));
     }
     free(warr);

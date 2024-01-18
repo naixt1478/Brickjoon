@@ -33,7 +33,7 @@ typedef struct htable
 int compare(const void* a, const void* b);
 node* init_node(char* key, data_t value);
 htable init_htable(int bsize);
-void free_htable(htable ht1, int bsize);
+void free_htable(htable ht1);
 
 int match_key(void* a, void* b);
 void insert_htable(htable ht1, char* key, data_t value, int bsize);
@@ -66,7 +66,7 @@ int main(void)
     if(ht1.iter_len != 0) qsort(arr1, ht1.iter_len, sizeof(arr1[0]), compare);
     for(int i = 0; i < ht1.iter_len; i++)
         printf("%s\n", arr1[i]);
-    free_htable(ht1, n);
+    free_htable(ht1);
 }
 
 int compare(const void* a, const void* b)
@@ -98,7 +98,7 @@ htable init_htable(int bsize)
     return ht1;
 }
 
-void free_htable(htable ht1, int bsize)
+void free_htable(htable ht1)
 {
     node* iter_node1 = ht1.iter_front;
     node* iter_node2 = NULL;
@@ -130,12 +130,17 @@ node* index_htable(htable ht1, char* key, int bsize)
 void insert_htable(htable ht1, char* key, data_t value, int bsize)
 {
     printf("now here2\n");
-    hlist hl1 = ht1.hlist[make_key_djb2(key, bsize)];
+    hlist* hl1 = &ht1.hlist[make_key_djb2(key, bsize)];
     node* inode1 = init_node(key, value);
-    if(hl1.root != NULL && hl1.hlist_len > 0)
-        inode1->next = hl1.root;
-    hl1.root = inode1;
-    if(ht1.iter_len > 0)
+    if(hl1->hlist_len != 0)
+    {
+        inode1->next = hl1->root;
+    }
+    else
+    {
+        hl1->root = inode1;
+    }
+    if(ht1.iter_len != 0)
     {
         ht1.iter_back->iter_next = inode1;
         inode1->iter_prev = ht1.iter_back;
@@ -143,7 +148,7 @@ void insert_htable(htable ht1, char* key, data_t value, int bsize)
     else
         ht1.iter_front = inode1;
     ht1.iter_back = inode1;
-    hl1.hlist_len += 1;
+    hl1->hlist_len += 1;
     ht1.iter_len += 1;
 }
 void remove_htable(htable ht1, char* key, int bsize)

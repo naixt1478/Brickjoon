@@ -1,14 +1,19 @@
+#define min(a,b) (((a)<(b))?(a):(b))
+#define max(a,b) (((a)>(b))?(a):(b))
 #include <stdio.h>
-#include <string.h>
 #include <stdlib.h>
+#include <string.h>
 
-void merge_sort(int*, int, int);
-void merge(int*,int*,int,int,int,int);
-void solve(int* arr1, int* parr1);
+typedef int sort_t;
 
+void merge_sort(sort_t* arr, int len, int (*comp)(void*,void*));
+void merge(sort_t* arr, sort_t* warr,int l1,int r1,int e1,int (*comp)(void*,void*));
+int comp(void* a, void* b);
+void solve(int* arr1, int* arr2);
+
+int N, M;
 int main(void)
 {
-    int N, M;
     scanf("%d %d", &N, &M);
     int* arr1 = (int*)calloc(N,sizeof(int));
     int* arr2 = (int*)calloc(M,sizeof(int));
@@ -19,31 +24,38 @@ int main(void)
     free(arr2);
     return 0;
 }
-
-void solve(int* arr1, int* parr1)
+// for non recursive
+void solve(int* arr1, int* arr2)
 {
     
 }
+int comp(void* a, void* b)
+{
+    if(*(int*)a <= *(int*)b) return 1;
+    else return 0;
+}
 
-void merge_sort(int* arr, int len, int comp)
+void merge_sort(sort_t* arr, int len, int (*comp)(void*,void*))
 {  
-    int* warr = (int*)malloc(len*sizeof(int));
+    sort_t* warr = (sort_t*)malloc(len*sizeof(sort_t));
     for(int i = 1; i < len; i*=2)
     {
         for(int j = 0; j < len; j += 2 * i)
+        {
             merge(arr, warr, j, min(j+i, len), min(j+i*2,len), comp);
-        memcpy(arr, warr, len*sizeof(int));
+        }
+        memcpy(arr, warr, len*sizeof(sort_t));
     }
     free(warr);
 }
 
-void merge(int* arr, int* warr, int l1, int r1, int e1, int comp)
+void merge(sort_t* arr, sort_t* warr, int l1, int r1, int e1, int (*comp)(void*,void*))
 {
     int i = l1;
     int j = r1;
     for(int k = l1; k < e1; k++)
     {
-        if(i < r1 && (j >= e1 || (arr[i] <= arr[j]) != comp))
+        if(i < r1 && (j >= e1 || (*comp)(&arr[i], &arr[j])))
         {
             warr[k] = arr[i];
             i++;

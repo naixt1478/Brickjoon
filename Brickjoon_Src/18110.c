@@ -39,7 +39,7 @@ int main(void)
     return 0;
 }
 
-void merge_sort(int* arr, int len, int comp)
+void merge_sort(int* arr, int len, int (*comp)(void*,void*))
 {  
     int* warr = (int*)malloc(len*sizeof(int));
     for(int i = 1; i < len; i*=2)

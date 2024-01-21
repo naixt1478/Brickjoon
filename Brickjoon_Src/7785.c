@@ -33,7 +33,7 @@ typedef struct htable
     int iter_len;
 } htable;
 
-void merge_sort(sort_t* arr, int len, int slen, int (*comp)(void*,void*));
+void merge_sort(sort_t* arr, int len, int (*comp)(void*,void*));
 void merge(sort_t* arr, sort_t* warr, int l1, int r1, int e1, int (*comp)(void*,void*));
 int comp(void* a, void* b);
 
@@ -44,31 +44,37 @@ void free_htable(htable* ht1);
 int match_key(void* a, void* b);
 void insert_htable(htable* ht1, char* key, data_t value, int bsize);
 void remove_htable(htable* ht1, char* key, int bsize);
-int search_htable(htable* ht1, char* key, int bsize);
-node* index_htable(htable* ht1, char* key, int bsize);
+node* search_htable(htable* ht1, char* key, int bsize);
 
 ui32_t make_key(const char* key,int bsize);
 
 int main(void)
 {
-    int n;
+    freopen("7785.in", "r", stdin);
+    freopen("7785.out", "w", stdout);
+    int n,j = 0;
     char c1[20],c2[20];
     scanf("%d", &n);
     htable ht1 = init_htable(n*2);
     for(int i = 0; i < n; i++)
     {
         scanf("%s %s", c1, c2);
-        if(strcmp(c2, "enter") == 0) insert_htable(&ht1, c1, 1, n*2);
+        if(c2[0] == 'e') insert_htable(&ht1, c1, 1, n*2);
         else remove_htable(&ht1, c1, n*2);
     }
-    node* iter = ht1.iter_front;
-    char** arr1 = (char**)calloc(ht1.iter_len, sizeof(char*));
-    for(int i = 0; i < ht1.iter_len; i++)
+    char** arr1 = (char**)malloc(ht1.iter_len*sizeof(char*));
+    for(int i = 0; i < n*2; i++)
     {
-        arr1[i] = iter->key;
-        iter = iter->iter_next;
+        node* tmp = ht1.hlist[i].root;
+        if(ht1.hlist[i].hlist_len == 0) continue;
+        while(tmp != NULL)
+        {
+            arr1[j] = tmp->key;
+            tmp = tmp->next;
+            j++;
+        }
     }
-    if(ht1.iter_len != 0) merge_sort(arr1,ht1.iter_len,21,comp);
+    if(ht1.iter_len != 0) merge_sort(arr1,ht1.iter_len,comp);
     for(int i = 0; i < ht1.iter_len; i++)
         printf("%s\n", arr1[i]);
     free_htable(&ht1);
@@ -76,14 +82,14 @@ int main(void)
 
 int comp(void* a, void* b)
 {
-    if(strcmp((sort_t)a, (sort_t)b) <= 0) return 1;
+    if(strcmp(*(sort_t*)a, *(sort_t*)b) <= 0) return 1;
     else return 0;
 }
 
-void merge_sort(sort_t* arr, int len, int slen, int (*comp)(void*,void*))
+void merge_sort(sort_t* arr, int len, int (*comp)(void*,void*))
 {  
     sort_t* warr = (sort_t*)malloc(len*sizeof(sort_t));
-    //for(int i = 0; i < len; i++) warr[i] = (sort_t)calloc(slen, sizeof(char));
+    memcpy(warr, arr, len*sizeof(sort_t));
     for(int i = 1; i < len; i*=2)
     {
         for(int j = 0; j < len; j += 2 * i)
@@ -92,7 +98,6 @@ void merge_sort(sort_t* arr, int len, int slen, int (*comp)(void*,void*))
         }
         memcpy(arr, warr, len*sizeof(sort_t));
     }
-    //for(int i = 0; i < len; i++) free(warr[i]);
     free(warr);
 }
 
@@ -131,11 +136,6 @@ htable init_htable(int bsize)
 {
     htable ht1 = {NULL, NULL, NULL, 0};
     ht1.hlist = (hlist*)calloc(bsize, sizeof(hlist));
-    for(int i = 0; i < bsize; i++)
-    {
-        ht1.hlist[i].root = NULL;
-        ht1.hlist[i].hlist_len = 0;
-    }
     return ht1;
 }
 
@@ -153,28 +153,12 @@ void free_htable(htable* ht1)
     free(ht1->hlist);
 }
 
-node* index_htable(htable* ht1, char* key, int bsize)
-{
-    if(search_htable(ht1, key, bsize) == 0) insert_htable(ht1, key, 0, bsize);
-    hlist* hl1 = &ht1->hlist[make_key(key, bsize)];
-    node* iter_node = hl1->root;
-    while(iter_node != NULL)
-    {
-        if(match_key(iter_node->key, key))
-            return iter_node;
-        iter_node = iter_node->next;
-    }
-    return NULL;
-}
-
 void insert_htable(htable* ht1, char* key, data_t value, int bsize)
 {
     hlist* hl1 = &ht1->hlist[make_key(key, bsize)];
     node* inode1 = init_node(key, value);
     if(hl1->hlist_len != 0)
-    {
         inode1->next = hl1->root;
-    }
     hl1->root = inode1;
     if(ht1->iter_len > 0)
     {
@@ -192,16 +176,15 @@ void insert_htable(htable* ht1, char* key, data_t value, int bsize)
     ht1->iter_len += 1;
     node* tmp2 = ht1->iter_front;
     while(tmp2 != NULL)
-    {
         tmp2 = tmp2->iter_next;
-    }
 }
 void remove_htable(htable* ht1, char* key, int bsize)
 {
     hlist* hl1 = &ht1->hlist[make_key(key, bsize)];
     node* iter_pnode = NULL;
     node* iter_node = hl1->root;
-    while(hl1->hlist_len != 0 && iter_node != NULL)
+    if(hl1->hlist_len == 0) return;
+    while(iter_node != NULL)
     {
         if(match_key(iter_node->key,key))
         {
@@ -227,6 +210,7 @@ void remove_htable(htable* ht1, char* key, int bsize)
                 iter_node->iter_prev->iter_next = iter_node->iter_next;
                 iter_node->iter_next->iter_prev = iter_node->iter_prev;
             }
+
             if(iter_pnode == NULL)
                 hl1->root = iter_node->next;
             else
@@ -237,17 +221,18 @@ void remove_htable(htable* ht1, char* key, int bsize)
         iter_node = iter_node->next;
     }
 }
-int search_htable(htable* ht1, char* key, int bsize)
+node* search_htable(htable* ht1, char* key, int bsize)
 {
     hlist* hl1 = &ht1->hlist[make_key(key, bsize)];
     node* iter_node = hl1->root;
-    while(hl1->hlist_len != 0 && iter_node != NULL)
+    if(hl1->hlist_len == 0) return NULL;
+    while(iter_node != NULL)
     {
         if(match_key(iter_node->key, key))
-            return 1;
+            return iter_node;
         iter_node = iter_node->next;
     }
-    return 0;
+    return NULL;
 }
 
 int match_key(void* a, void* b)

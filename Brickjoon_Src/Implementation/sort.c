@@ -6,8 +6,8 @@
 
 typedef int sort_t;
 
-void merge_sort(sort_t* arr, int len, int comp);
-void merge(sort_t* arr, sort_t* warr,int l1,int r1,int e1,int comp);
+void merge_sort(sort_t* arr, int len, int (*comp)(void*,void*));
+void merge(sort_t* arr, sort_t* warr,int l1,int r1,int e1,int (*comp)(void*,void*));
 int comp(void* a, void* b);
 
 int main(void)
@@ -25,7 +25,7 @@ int comp(void* a, void* b)
     else return 0;
 }
 
-void merge_sort(sort_t* arr, int len, int comp)
+void merge_sort(sort_t* arr, int len, int (*comp)(void*,void*))
 {  
     sort_t* warr = (sort_t*)malloc(len*sizeof(sort_t));
     for(int i = 1; i < len; i*=2)

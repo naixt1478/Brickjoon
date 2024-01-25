@@ -9,7 +9,7 @@ typedef int sort_t;
 void merge_sort(sort_t* arr, int len, int (*comp)(void*,void*));
 void merge(sort_t* arr, sort_t* warr,int l1,int r1,int e1,int (*comp)(void*,void*));
 int comp(void* a, void* b);
-void solve(int* arr1, int* arr2, int* arrc1, int i1);
+void solve(int* arr1, int* arr2, int i1);
 
 int N, M;
 int main(void)
@@ -17,17 +17,15 @@ int main(void)
     scanf("%d %d", &N, &M);
     int* arr1 = (int*)calloc(N,sizeof(int));
     int* arr2 = (int*)calloc(M,sizeof(int));
-    int* arr3 = (int*)calloc(N,sizeof(int));
     for(int i = 0; i < N; i++) scanf("%d", &arr1[i]);
     merge_sort(arr1, N, comp);
-    solve(arr1, arr2, arr3, 0);
+    solve(arr1, arr2, 0);
     free(arr1);
     free(arr2);
-    free(arr3);
     return 0;
 }
 
-void solve(int* arr1, int* arr2, int* arrc1, int i1)
+void solve(int* arr1, int* arr2, int i1)
 {
     int x = 0;
     if(i1 == M)
@@ -40,13 +38,11 @@ void solve(int* arr1, int* arr2, int* arrc1, int i1)
     {
         for(int i = 0; i < N; i++)
         {
-            if(arrc1[i] == 0 && x != arr1[i])
+            if(x != arr1[i] && (i1 == 0 || arr2[i1 - 1] <= arr1[i]))
             {
-                arrc1[i] = 1;
                 x = arr1[i];
                 arr2[i1] = arr1[i];
-                solve(arr1, arr2, arrc1, i1 + 1);
-                arrc1[i] = 0;
+                solve(arr1, arr2, i1 + 1);
             }
         }
     }

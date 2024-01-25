@@ -16,7 +16,7 @@ int main(void)
         arr2[i] = 1;
         for(int j = 0; j < i; j++)
         {
-            if(arr1[j] < arr1[i]) arr2[i] = max(arr2[j] + 1, arr2[i]);
+            if(arr1[j] < arr1[i] && arr2[i] > ) arr2[i] = max(arr2[j] + 1, arr2[i]);
         }
     }
     printf("%d", m);

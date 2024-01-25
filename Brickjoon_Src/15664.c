@@ -40,7 +40,7 @@ void solve(int* arr1, int* arr2, int* arrc1, int i1)
     {
         for(int i = 0; i < N; i++)
         {
-            if(arrc1[i] == 0 && x != arr1[i])
+            if(arrc1[i] == 0 && x != arr1[i] && (i1 == 0 || arr2[i1 - 1] <= arr1[i]))
             {
                 arrc1[i] = 1;
                 x = arr1[i];

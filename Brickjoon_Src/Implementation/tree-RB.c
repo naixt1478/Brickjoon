@@ -1,33 +1,39 @@
-// BST implementation
+// Red Black Tree implementation
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdint.h>
 
 typedef int key_t;
-typedef struct node
+typedef enum 
+{
+    BLACK,
+    RED
+} color_t;
+typedef struct RBnode
 {
     key_t key;
-    struct node *left, *right, *parent;
-} node;
-typedef struct bst
+    struct RBnode *left, *right, *parent;
+    color_t color;
+} RBnode;
+typedef struct RBtree
 {
-    node* root;
+    RBnode* root;
     int size;
-} bst;
+} RBtree;
 
 node* init_node(key_t key);
 
 void in_bst(bst* T, key_t key);
-node* search_bst(bst* T, key_t key);
+node* search_rbt(rbtree* T, key_t key);
 node* recur_sbst(node* x, key_t key);
 void shift_nodes(bst* T, node* u, node* v);
 void del_bst(bst* T, key_t key);
 
 // traversal
-void inorder_bst(bst T);
-void preorder_bst(bst T);
-void postorder_bst(bst T);
+void inorder_bst(rbtree T);
+void preorder_bst(rbtree T);
+void postorder_bst(rbtree T);
 void inorder_tbst(node* x);
 void preorder_tbst(node* x);
 void postorder_tbst(node* x);
@@ -38,9 +44,7 @@ node* predecessor_bst(node* x);
 node* minimum_bst(node* x);
 node* maximum_bst(node* x);
 // from solve 5639 pass code
-bst bst1;
-void solve_bst(bst T);
-void solve_tbst(node* x);
+rbtree rbt1;
 int main(void)
 {
     //freopen("TestInput.txt", "r", stdin);
@@ -48,16 +52,6 @@ int main(void)
     while(scanf("%d", &n) != EOF)
         in_bst(&bst1, n);
     solve_bst(bst1);
-}
-
-void solve_tbst(node* x)
-{
-    if(x != NULL)
-    {
-        solve_tbst(x->left);
-        solve_tbst(x->right);
-        printf("%d\n",x->key);
-    }
 }
 
 void solve_bst(bst T)

@@ -1,13 +1,21 @@
+// from 14003
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-int n,M;
 int lower_bound(int* arr1, int l, int val);
+void solve(int n);
 
 int main(void)
 {
-    scanf("%d", &n);
+    int n;
+    while(scanf("%d", &n) != EOF)
+        solve(n);
+}
+
+void solve(int n)
+{
+    int M = 0;
     int* pi1 = calloc(n, sizeof(int));
     int* dp1 = calloc(n, sizeof(int));
     int* dp2 = calloc(n, sizeof(int));
@@ -39,12 +47,10 @@ int main(void)
         }
     }
     printf("%d\n",M);
-    for(int i = 1; i <= M; i++) printf("%d ", dp1[i]);
     free(pi1);
     free(dp1);
     free(dp2);
     free(bs1);
-    return 0;
 }
 
 int lower_bound(int* arr1, int l, int val)

@@ -2,7 +2,11 @@
 #include <stdlib.h>
 #include <string.h>
 // doubly Linked List
-typedef int data_t;
+typedef struct data_t
+{
+    int x,y;
+} data_t;
+
 typedef struct node
 {
     data_t data;
@@ -24,44 +28,6 @@ void dequeue(queue* qp1);
 queue q1;
 int main(void)
 {
-    char c1[10];
-    int N,a;
-    scanf("%d", &N);
-    while(N--)
-    {
-        scanf("%s", c1);
-        if(strcmp(c1, "push") == 0)
-        {
-            scanf("%d", &a);
-            enqueue(&q1, a);
-        }
-        else if(strcmp(c1, "front") == 0)
-        {
-            if(q1.size != 0) printf("%d\n", q1.front->data);
-            else printf("-1\n");
-        }
-        else if(strcmp(c1, "back") == 0)
-        {
-            if(q1.size != 0) printf("%d\n", q1.rear->data);
-            else printf("-1\n");
-        }
-        else if(strcmp(c1, "size") == 0)
-            printf("%d\n", q1.size);
-        else if(strcmp(c1, "empty") == 0)
-        {
-            if(q1.size == 0) printf("1\n");
-            else printf("0\n");
-        }
-        else if(strcmp(c1, "pop") == 0)
-        {
-            if(q1.size == 0) printf("-1\n");
-            else
-            {
-                printf("%d\n", q1.front->data);
-                dequeue(&q1);
-            }
-        }
-    }
     return 0;
 }
 

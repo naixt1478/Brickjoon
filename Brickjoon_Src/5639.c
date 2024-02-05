@@ -37,7 +37,7 @@ node* predecessor_bst(node* x);
 
 node* minimum_bst(node* x);
 node* maximum_bst(node* x);
-// from solve 5639 pass code
+
 bst bst1;
 void solve_bst(bst T);
 void solve_tbst(node* x);

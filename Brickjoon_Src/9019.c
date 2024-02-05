@@ -4,12 +4,7 @@
 #include <string.h>
 #include <limits.h>
 // Linked List
-typedef struct data_t
-{
-    int x;
-    char* s1;
-} data_t;
-
+typedef int data_t;
 typedef struct node
 {
     data_t data;
@@ -29,65 +24,73 @@ queue* initqueue();
 node* initnode(data_t i1);
 void solve(int a, int b);
 
+char c1[4] = {'D', 'S', 'L', 'R'};
+int ci1[4] = {0,};
+
 int main(void)
 {
-    
-    char c1[4] = {'D', 'S', 'L', 'R'};
-    int ci1[4] = {0};
     int T,a,b;
     scanf("%d", &T);
     while (T--)
     {
-        int* arr1 = (int*)calloc(10000, sizeof(int));
-        char** arr2 = (char**)malloc(sizeof(char*)*10000);
-        for(int i = 0; i < 10000; i++) arr2[i] = NULL;
         scanf("%d %d", &a, &b);
-        arr1[a] = 1;
-        arr2[a] = calloc(1,sizeof(char));
-        arr2[a][0] = '\0';
-        data_t root = {a, arr2[a]};
-        queue* q1 = initqueue();
-        enqueue(q1, root);
-        while(q1->front != NULL)
-        {
-            data_t n1 = q1->front->data;
-            size_t st1 = strlen(n1.s1);   
-            dequeue(q1);
-            if(n1.x == b)
-            {
-                while(q1->front != NULL) dequeue(q1);
-                continue;
-            }
-            ci1[0] = (n1.x * 2) % 10000;
-            ci1[1] = (n1.x == 0 ? 9999 : n1.x - 1);
-            ci1[2] = (n1.x % 1000)*10 + n1.x / 1000;
-            ci1[3] = n1.x/10 + (n1.x%10)*1000;
-            for(int i = 0; i < 4; i++)
-            {
-                if(arr1[ci1[i]] == 0)
-                {
-                    arr1[ci1[i]] = 1;
-                    arr2[ci1[i]] = (char*)calloc(st1 + 2, sizeof(char));
-                    strcpy(arr2[ci1[i]], n1.s1);
-                    arr2[ci1[i]][st1] = c1[i];
-                    arr2[ci1[i]][st1 + 1] = '\0';
-                    data_t d2 = {ci1[i], arr2[ci1[i]]};
-                    enqueue(q1,d2);
-                }
-            }
-        }
-        printf("%s\n", arr2[b]);
-        for(int i = 0; i < 10000; i++)
-            if(arr2[i] != NULL) free(arr2[i]);
-        free(arr1);
-        free(arr2);
+        solve(a,b);
     }
     return 0;
 }
 
 void solve(int a, int b)
 {
-    
+    int arr1[10000] = {0,};
+    int arr3[10000] = {0,};
+    char arr2[10000];
+    arr1[a] = 1;
+    arr3[a] = a;
+    arr2[a] = '\0';
+    queue* q1 = initqueue();
+    enqueue(q1, a);
+    while(q1->front != NULL)
+    {
+        data_t n1 = q1->front->data;
+        dequeue(q1);
+        if(n1 == b)
+        {
+            while(q1->front != NULL) dequeue(q1);
+            continue;
+        }
+        ci1[0] = (n1 * 2) % 10000;
+        ci1[1] = (n1 == 0 ? 9999 : n1 - 1);
+        ci1[2] = (n1 % 1000)*10 + n1 / 1000;
+        ci1[3] = n1/10 + (n1%10)*1000;
+        for(int i = 0; i < 4; i++)
+        {
+            if(arr1[ci1[i]] == 0)
+            {
+                arr1[ci1[i]] = 1;
+                arr3[ci1[i]] = n1;
+                arr2[ci1[i]] = c1[i];
+                enqueue(q1, ci1[i]);
+            }
+        }
+    }
+    int i = 0;
+    char c2[10005] = "";
+    int now = b;
+    while(1)
+    {
+        if(arr2[now] != '\0') 
+        {
+            c2[i] = arr2[now];
+            c2[i+1] = '\0';
+            i += 1;
+        }        
+        if(arr3[now] == a)
+            break;
+        else now = arr3[now];
+    }
+    for(int j = i-1; j >= 0; j--)
+        printf("%c",c2[j]);
+    printf("\n");
 }
 
 queue* initqueue()

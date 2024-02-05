@@ -37,32 +37,46 @@ node* predecessor_bst(node* x);
 
 node* minimum_bst(node* x);
 node* maximum_bst(node* x);
-// from solve 5639 pass code
+// from implementation folder Tree-BST.c
+
+int c;
 bst bst1;
-void solve_bst(bst T);
-void solve_tbst(node* x);
+void solve_in_bst(bst* T, key_t key);
 int main(void)
 {
     //freopen("TestInput.txt", "r", stdin);
-    int n;
-    while(scanf("%d", &n) != EOF)
-        in_bst(&bst1, n);
-    solve_bst(bst1);
-}
-
-void solve_tbst(node* x)
-{
-    if(x != NULL)
+    int n,a;
+    scanf("%d", &n);
+    for(int i = 0; i < n; i++)
     {
-        solve_tbst(x->left);
-        solve_tbst(x->right);
-        printf("%d\n",x->key);
+        scanf("%d", &a);
+        solve_in_bst(&bst1, a);
     }
 }
 
-void solve_bst(bst T)
+void solve_in_bst(bst* T, key_t key)
 {
-    solve_tbst(T.root);
+    node* px = NULL;
+    node* x = T->root;
+    node* z = init_node(key);
+    while(x != NULL)
+    {
+        c += 1;
+        px = x;
+        if(z->key < x->key)
+            x = x->left;
+        else 
+            x = x->right;
+    }
+    z->parent = px;
+    if(px == NULL)
+        T->root = z;
+    else if(z->key < px->key)
+        px->left = z;
+    else
+        px->right = z;
+    T->size += 1;
+    printf("%d\n", c);
 }
 
 node* init_node(key_t key)

@@ -1,0 +1,1 @@
+{"name":"Local: 1927","url":"d:\\source\\Projects\\Cmake-Projects\\Brickjoon\\Brickjoon_Src\\1927.c","tests":[{"id":1707309115924,"input":"9\n0\n12345678\n1\n2\n0\n0\n0\n0\n32","output":"0\n1\n2\n12345678\n0"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\source\\Projects\\Cmake-Projects\\Brickjoon\\Brickjoon_Src\\1927.c","group":"local","local":true}

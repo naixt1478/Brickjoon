@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+<<<<<<< Updated upstream
 int n,m;
 
 int s1(int, int, int **, int **);
@@ -57,3 +58,35 @@ int s1(int a, int b, int **arr, int **dp)
     }
     return 0;
 }
+=======
+int n;
+int sum1(int a, int b, int **arr2);
+int main(void)
+{
+    scanf("%d", &n);
+    int **arr2 = calloc(n, sizeof(int*));
+    for(int i = 0; i < n; i++)
+    {
+        arr2[i] = (int*)calloc(i+1, sizeof(int));
+        for(int j = 0; j <= i; j++)
+            scanf("%d ", &arr2[i][j]);
+    }
+    printf("%d", sum1(0, 0, &arr2));
+    for(int i = 0; i < n; i++)
+        free(arr2[i]);
+    free(arr2);
+    return 0;
+}
+
+int sum1(int a, int b, int **arr2)
+{
+    if(a >= n-1)
+        return arr2[a][b];
+    int c = sum1(a+1, b, &arr2);
+    int d = sum1(a+1, b+1, &arr2);
+    if(c > d)
+        return arr2[a][b] + c;
+    else
+        return arr2[a][b] + d;
+}
+>>>>>>> Stashed changes

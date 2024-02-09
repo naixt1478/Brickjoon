@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+<<<<<<< Updated upstream
 #include <string.h>
 
 typedef struct data_t

@@ -58,6 +58,8 @@ int main(void)
     htable ht1 = init_htable(n*2);
     for(int i = 0; i < n; i++)
     {
+        //printf("it working : %d -> %d\n", i,n);
+        //arr1[i] = (char*)calloc(6, sizeof(char));
         scanf("%s %s", c1, c2);
         if(c2[0] == 'e') insert_htable(&ht1, c1, 1, n*2);
         else remove_htable(&ht1, c1, n*2);
@@ -107,15 +109,15 @@ void merge(sort_t* arr, sort_t* warr, int l1, int r1, int e1, int (*comp)(void*,
     int j = r1;
     for(int k = l1; k < e1; k++)
     {
-        if(i < r1 && (j >= e1 || (*comp)((void*)&arr[i], (void*)&arr[j])))
-        {
-            warr[k] = arr[i];
-            i++;
-        }
-        else
+        if(j < e1 && (i >= r1 || (*comp)((void*)&arr[i], (void*)&arr[j])))
         {
             warr[k] = arr[j];
             j++;
+        }
+        else
+        {
+            warr[k] = arr[i];
+            i++;
         }
     }
 }

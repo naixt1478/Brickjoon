@@ -1,198 +1,204 @@
+#define min(a,b) (((a)<(b))?(a):(b))
+#define max(a,b) (((a)>(b))?(a):(b))
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 typedef long long int i64_t;
 typedef unsigned long long int ui64_t;
+typedef unsigned int ui32_t;
 
 typedef int data_t;
-
 typedef struct node
 {
-    char key[50];
+    char key[10];
     data_t data;
-    struct node* next;
+    struct node *next;
+    struct node *iter_next;
+    struct node *iter_prev;
 } node;
 
-typedef struct h_table
+typedef struct hlist
 {
-    node *root;
-    int length;
-} h_table;
+    node* root;
+    int hlist_len;
+} hlist;
 
-typedef struct fnode
+typedef struct htable
 {
-    struct fnode* next;
-    struct node* free;
-} fnode;
+    hlist* hlist;
+    node* iter_front;
+    node* iter_back;
+    int iter_len;
+} htable;
 
-typedef struct f_table
-{
-    fnode *root;
-} f_table;
-
-node* init_h_node(char* key, data_t value);
-h_table** init_h_table(int BSIZE);
-void free_h_table(h_table** nt2, int BSIZE, f_table* ft1);
+node* init_node(char* key, data_t value);
+htable init_htable(int bsize);
+void free_htable(htable* ht1);
 
 int match_key(void* a, void* b);
-void insert_h_table(h_table** nt2, char* key, data_t value, f_table*,int);
-void remove_h_table(h_table** nt2,char* key,int BSIZE);
-int search_h_table(h_table** nt2, char* key,int BSIZE);
-node* index_h_table(h_table** nt2,char* key,int BSIZE);
+void insert_htable(htable* ht1, char* key, data_t value, int bsize);
+void remove_htable(htable* ht1, char* key, int bsize);
+int search_htable(htable* ht1, char* key, int bsize);
+node* index_htable(htable* ht1, char* key, int bsize);
 
-ui64_t make_key_djb2(char* key,int BSIZE);
+ui32_t make_key(const char* key,int bsize);
 
-int N,b,M;
-char a[30];
-const int BUCKET_SIZE = 500000;
 int main(void)
 {
-    scanf("%d", &N);
-    h_table** ht1 = init_h_table(N);
-    f_table ft1 = {NULL};
-    for(int i = 0; i < N; i++)
+    int n,m;
+    char c1[10];
+    scanf("%d", &n);
+    htable ht1 = init_htable(n*2);
+    for(int i = 0; i < n; i++)
     {
-        scanf("%s", a);
-        insert_h_table(ht1,a,1,&ft1,N);
+        scanf("%s", c1);
+        insert_htable(&ht1,c1,1,n*2);
     }
-    scanf("%d", &M);
-    for(int j = 0; j < M; j++)
+    scanf("%d", &m);
+    for(int i = 0; i < m; i++)
     {
-        scanf("%s", a);
-        printf("%d ",search_h_table(ht1, a, N));
+        scanf("%s", c1);
+        if(search_htable(&ht1,c1, n * 2)) printf("1 ");
+        else printf("0 ");
     }
-    free_h_table(ht1,N,&ft1);
+    free_htable(&ht1);
+    return 0;
 }
 
-node* init_h_node(char* key, data_t value)
+node* init_node(char* key, data_t value)
 {
     node* tmp = malloc(sizeof(node));
     if(tmp == NULL) return NULL;
     tmp->next = NULL;
+    tmp->iter_next = NULL;
+    tmp->iter_prev = NULL;
     tmp->data = value;
     strcpy(tmp->key, key);
     return tmp;
 }
-h_table** init_h_table(int BSIZE)
+
+htable init_htable(int bsize)
 {
-    h_table** nt2;
-    nt2 = (h_table**)calloc(BSIZE, sizeof(h_table*));
-    for(int i = 0; i < BSIZE; i++)
+    htable ht1 = {NULL, NULL, NULL, 0};
+    ht1.hlist = (hlist*)calloc(bsize, sizeof(hlist));
+    for(int i = 0; i < bsize; i++)
     {
-        nt2[i] = (h_table*)calloc(1,sizeof(h_table));
-        nt2[i]->root = NULL;
+        ht1.hlist[i].root = NULL;
+        ht1.hlist[i].hlist_len = 0;
     }
-    return nt2;
-}
-void free_h_table(h_table** nt2, int BSIZE,f_table* ft1)
-{
-    fnode* tmp = ft1->root;
-    while(tmp != NULL)
-    {
-        free(tmp->free);
-        fnode* tmp2 = tmp;
-        tmp = tmp->next;
-        free(tmp2);
-    }
-    for(int i = 0; i < BSIZE; i++) free(nt2[i]);
-    free(nt2);
+    return ht1;
 }
 
-node* index_h_table(h_table** nt2, char* key,int BSIZE)
+void free_htable(htable* ht1)
 {
-    h_table* nt1 = nt2[make_key_djb2(key,BSIZE)];
-    node* tmp = nt1->root;
-    if(nt1->length >= 1)
+    node* iter_node1 = ht1->iter_front;
+    node* iter_node2 = NULL;
+    while(iter_node1 != NULL)
     {
-        while(1)
-        {
-            if(match_key(tmp->key, key))
-                return tmp;
-            else if(tmp->next != NULL)
-            {
-                tmp = tmp->next;
-                continue;
-            }
-            return NULL;
-        }
+        iter_node2 = iter_node1;
+        free(iter_node2);
+        iter_node2 = NULL;
+        iter_node1 = iter_node1->iter_next;
+    }
+    free(ht1->hlist);
+}
+
+node* index_htable(htable* ht1, char* key, int bsize)
+{
+    if(search_htable(ht1, key, bsize) == 0) insert_htable(ht1, key, 0, bsize);
+    hlist* hl1 = &ht1->hlist[make_key(key, bsize)];
+    node* iter_node = hl1->root;
+    while(iter_node != NULL)
+    {
+        if(match_key(iter_node->key, key))
+            return iter_node;
+        iter_node = iter_node->next;
     }
     return NULL;
 }
-void insert_h_table(h_table** nt2, char* key, data_t value,f_table* ft1,int BSIZE)
+
+void insert_htable(htable* ht1, char* key, data_t value, int bsize)
 {
-    h_table* nt1 = nt2[make_key_djb2(key,BSIZE)];
-    if(nt1->length > 0)
+    hlist* hl1 = &ht1->hlist[make_key(key, bsize)];
+    node* inode1 = init_node(key, value);
+    if(hl1->hlist_len != 0)
     {
-        // detect hash collision
-        node* tmp = nt1->root;
-        nt1->root = init_h_node(key, value);
-        nt1->root->next = tmp;
+        inode1->next = hl1->root;
+    }
+    hl1->root = inode1;
+    if(ht1->iter_len > 0)
+    {
+        node* tmp1 = ht1->iter_back;
+        ht1->iter_back = inode1;
+        tmp1->iter_next = ht1->iter_back;
+        ht1->iter_back->iter_prev = tmp1;
     }
     else
     {
-        nt1->root = init_h_node(key, value);
+        ht1->iter_front = inode1;
+        ht1->iter_back = inode1;
     }
-    if(ft1->root == NULL)
+    hl1->hlist_len += 1;
+    ht1->iter_len += 1;
+    node* tmp2 = ht1->iter_front;
+    while(tmp2 != NULL)
     {
-        ft1->root = (fnode*)malloc(sizeof(fnode));
-        ft1->root->free = nt1->root;
-        ft1->root->next = NULL;
-    }
-    else
-    {
-        ft1->root->next = (fnode*)malloc(sizeof(fnode));
-        ft1->root->next->free = nt1->root;
-        ft1->root->next->next = NULL;
-    }
-    nt1->length++;
-}
-void remove_h_table(h_table** nt2, char* key, int BSIZE)
-{
-    h_table* nt1 = nt2[make_key_djb2(key,BSIZE)];
-    if(nt1->length >= 1)
-    {
-        node* bf = NULL;
-        node* tmp = nt1->root;
-        while(1)
-        {
-            if(match_key(tmp->key,key))
-            {
-                nt1->length--;
-                node* tmp2 = tmp->next;
-                free(tmp);
-                if(bf != NULL) bf->next = tmp2;
-                else nt1->root = tmp2;
-            }
-            else if(tmp->next != NULL)
-            {
-                bf = tmp;
-                tmp = tmp->next;
-                continue;
-            }
-            break;
-        }
+        tmp2 = tmp2->iter_next;
     }
 }
-int search_h_table(h_table** nt2, char* key,int BSIZE)
+void remove_htable(htable* ht1, char* key, int bsize)
 {
-    h_table* nt1 = nt2[make_key_djb2(key,BSIZE)];
-    node* tmp = nt1->root;
-    if(nt1->length >= 1)
+    hlist* hl1 = &ht1->hlist[make_key(key, bsize)];
+    node* iter_pnode = NULL;
+    node* iter_node = hl1->root;
+    while(hl1->hlist_len != 0 && iter_node != NULL)
     {
-        while(1)
+        if(match_key(iter_node->key,key))
         {
-            if(match_key(tmp->key,key))
-                return 1;
-            else if(tmp->next != NULL)
-            {
-                tmp = tmp->next;
-                continue;
+            hl1->hlist_len -= 1;
+            ht1->iter_len -= 1;
+            if(iter_node->iter_prev == NULL && iter_node->iter_next == NULL)
+            { 
+                ht1->iter_front = NULL;
+                ht1->iter_back = NULL;
             }
-            return 0;
+            else if(iter_node->iter_next != NULL && iter_node->iter_prev == NULL) 
+            {
+                ht1->iter_front = iter_node->iter_next;
+                iter_node->iter_next->iter_prev = NULL;
+            }
+            else if(iter_node->iter_next == NULL && iter_node->iter_prev != NULL)
+            {
+                ht1->iter_back = iter_node->iter_prev;
+                iter_node->iter_prev->iter_next = NULL;
+            }
+            else
+            {
+                iter_node->iter_prev->iter_next = iter_node->iter_next;
+                iter_node->iter_next->iter_prev = iter_node->iter_prev;
+            }
+            if(iter_pnode == NULL)
+                hl1->root = iter_node->next;
+            else
+                iter_pnode->next = iter_node->next;
+            free(iter_node);
         }
+        iter_pnode = iter_node;
+        iter_node = iter_node->next;
     }
-    else return 0;
+}
+int search_htable(htable* ht1, char* key, int bsize)
+{
+    hlist* hl1 = &ht1->hlist[make_key(key, bsize)];
+    node* iter_node = hl1->root;
+    while(hl1->hlist_len != 0 && iter_node != NULL)
+    {
+        if(match_key(iter_node->key, key))
+            return 1;
+        iter_node = iter_node->next;
+    }
+    return 0;
 }
 
 int match_key(void* a, void* b)
@@ -200,11 +206,19 @@ int match_key(void* a, void* b)
     return ((strcmp(a,b) == 0) ? 1 : 0);
 }
 
-ui64_t make_key_djb2(char* key, int BSIZE)
+ui32_t make_key(const char* key, int bsize)
 {
-    ui64_t h = 5381;
-    int c;
-    while ((c = *key++))
-        h = ((h << 5) + h) + c; /* hash * 33 + c */
-    return h % BSIZE;
+    // one_at_a_time
+    size_t i = 0;
+    ui64_t length = strlen(key);
+    ui32_t hash = 0;
+    while (i != length) {
+    hash += (unsigned char)key[i++];
+    hash += hash << 10;
+    hash ^= hash >> 6;
+    }
+    hash += hash << 3;
+    hash ^= hash >> 11;
+    hash += hash << 15;
+    return hash % bsize;
 }

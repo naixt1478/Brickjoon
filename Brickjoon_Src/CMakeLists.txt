@@ -47,6 +47,7 @@ add_executable(baekjoon_10799 10799.cpp)
 add_executable(baekjoon_10807 10807.cpp)
 add_executable(baekjoon_10808 10808.cpp)
 add_executable(baekjoon_10809 10809.cc)
+add_executable(baekjoon_10813 10813.c)
 add_executable(baekjoon_10814 10814.cpp)
 add_executable(baekjoon_10815 10815.cpp)
 add_executable(baekjoon_10816 10816.cpp)
@@ -492,4 +493,8 @@ add_executable(baekjoon_9654 9654.cc)
 add_executable(baekjoon_9655 9655.cc)
 add_executable(baekjoon_9713 9713.cc)
 add_executable(baekjoon_9742 9742.cpp)
+<<<<<<< Updated upstream
 add_executable(baekjoon_test3 test3.cpp)
+=======
+add_executable(baekjoon_test3434 test3434.c)
+>>>>>>> Stashed changes

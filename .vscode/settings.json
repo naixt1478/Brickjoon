@@ -1,6 +1,11 @@
 {
     "files.associations": {
+<<<<<<< Updated upstream
         "iosfwd": "cpp",
         "iostream": "cpp"
+=======
+        "math.h": "c",
+        "random": "c"
+>>>>>>> Stashed changes
     }
 }

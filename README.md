@@ -1,9 +1,17 @@
 Brickjoon 
 ======
 
--------
-[![Build Status](https://img.shields.io/azure-devops/build/qnqn60360/bca4f551-da39-4446-abad-7dd292f89f76/9?logo=Azure%20DevOps&style=for-the-badge)](https://dev.azure.com/qnqn60360/Testing/_build/latest?definitionId=9&branchName=master)
+# 공지사항
+현재 해당 레포는 공사중에 있습니다. 떄가 되면 업데이트 될 예정입니다.
+그전 까진 이 레포를 참고하지 않는 것이 좋습니다!
 
-#### Algorithm study baekjoon online judge site for C / CPP language
-(soon codeforce, AtCoder)
+
+# Notice
+This repo is currently under construction. It will be updated when it is available.
+Until then, we recommend not referencing this repo!
+
+
+
+~~Algorithm study baekjoon online judge site for C / CPP language
+(soon codeforce, AtCoder)~~
 
